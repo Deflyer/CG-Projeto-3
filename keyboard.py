@@ -4,6 +4,7 @@
 import math
 import glfw
 import glm
+from camera import Camera, Camera_Movement
 
 polyMode = False
 tree_scale = 1
@@ -18,8 +19,10 @@ skyfix    = glm.vec3(0.0,  -72.0,  0.0)
 firstMouse = True
 yaw = -90.0 
 pitch = 0.0
-lastX =  700/2
-lastY =  700/2
+camera = Camera(glm.vec3(0.0, 0.0, 3.0))
+lastX = 1920 / 2.0
+lastY = 1080 / 2.0
+firstMouse = True
 
 # Geometric transformations auxiliar variables.
 rose_scale_y = 0.05
@@ -142,31 +145,23 @@ def key_event(window,key,scancode,action,mods):
         aux = bird_speed - 0.01
         bird_speed = max(aux, 0.0)
 
-def mouse_event(window, xpos, ypos):
-    global firstMouse, cameraFront, yaw, pitch, lastX, lastY
-    if firstMouse:
+def mouse_callback(window, xpos: float, ypos: float) -> None:
+    global lastX, lastY, firstMouse
+
+    if (firstMouse):
+
         lastX = xpos
         lastY = ypos
         firstMouse = False
 
     xoffset = xpos - lastX
-    yoffset = lastY - ypos
+    yoffset = lastY - ypos # reversed since y-coordinates go from bottom to top
+
     lastX = xpos
     lastY = ypos
 
-    sensitivity = 0.5
-    xoffset *= sensitivity
-    yoffset *= sensitivity
+    camera.ProcessMouseMovement(xoffset, yoffset)
 
-    yaw += xoffset
-    pitch += yoffset
+def scroll_callback(window, xoffset: float, yoffset: float) -> None:
 
-    
-    if pitch >= 90.0: pitch = 90.0
-    if pitch <= -90.0: pitch = -90.0
-
-    front = glm.vec3()
-    front.x = math.cos(glm.radians(yaw)) * math.cos(glm.radians(pitch))
-    front.y = math.sin(glm.radians(pitch))
-    front.z = math.sin(glm.radians(yaw)) * math.cos(glm.radians(pitch))
-    cameraFront = glm.normalize(front)
+    camera.ProcessMouseScroll(yoffset)

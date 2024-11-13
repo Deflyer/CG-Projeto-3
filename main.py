@@ -6,15 +6,18 @@ from vertexes import *
 import keyboard as kb
 import glm
 
+
 # Configuring the screen used to show the objects with textures.
 window = init_window()
-program = create_program()
-
+print("foi 1")
+non_emissor_object, emisssor_object = create_program()
+print("ah bom")
 glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE)
 glEnable( GL_BLEND )
 glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA )
 glEnable(GL_LINE_SMOOTH)
-glEnable(GL_TEXTURE_2D)
+#glEnable(GL_TEXTURE_2D)
+
 qtt_textures = 50
 textures = glGenTextures(qtt_textures)
 
@@ -24,20 +27,21 @@ textures_coord_list = []
 start = 0
 
 # Creating the shrek.
-shrek, coords_shrek, textures_shrek = get_vertexes_shrek()
-print(start)
-index_vertexes['shrek'] = [start]
+#print("nossa")
+#shrek, coords_shrek, textures_shrek = get_vertexes_shrek()
+#print(start)
+#index_vertexes['shrek'] = [start]
 # We use a different method to read from an obj file, so different save
-for value in coords_shrek:
-    index_vertexes['shrek'].append(start + value)
-start = len(shrek) + start
+#for value in coords_shrek:
+#    index_vertexes['shrek'].append(start + value)
+#start = len(shrek) + start
 
 # Creating the bathroom.
-bathroom, coords_bathroom, textures_bathroom = get_vertexes_bathroom()
-index_vertexes['bathroom'] = [start]
-for value in coords_bathroom:
-    index_vertexes['bathroom'].append(index_vertexes['bathroom'][-1] + value)
-start = len(bathroom) + start
+#bathroom, coords_bathroom, textures_bathroom = get_vertexes_bathroom()
+#index_vertexes['bathroom'] = [start]
+#for value in coords_bathroom:
+#    index_vertexes['bathroom'].append(index_vertexes['bathroom'][-1] + value)
+#start = len(bathroom) + start
 
 # Creating the house.
 house, coords_house, textures_house = get_vertexes_house()
@@ -47,93 +51,99 @@ for value in coords_house:
 start = len(house) + start
 
 # Creating the sky.
-sky, coords_sky, textures_sky = get_vertexes_sky()
-index_vertexes['sky'] = [start]
-for value in coords_sky:
-    index_vertexes['sky'].append(index_vertexes['sky'][-1] + value)
-start = len(sky) + start
+#sky, coords_sky, textures_sky = get_vertexes_sky()
+#index_vertexes['sky'] = [start]
+#for value in coords_sky:
+#    index_vertexes['sky'].append(index_vertexes['sky'][-1] + value)
+#start = len(sky) + start
 
 # Creating the drawer.
-drawer, coords_drawer, textures_drawer = get_vertexes_drawer()
-index_vertexes['drawer'] = [start]
-for value in coords_drawer:
-    index_vertexes['drawer'].append(index_vertexes['drawer'][-1] + value)
-start = len(drawer) + start
+#drawer, coords_drawer, textures_drawer = get_vertexes_drawer()
+#index_vertexes['drawer'] = [start]
+#for value in coords_drawer:
+#    index_vertexes['drawer'].append(index_vertexes['drawer'][-1] + value)
+#start = len(drawer) + start
 
 # Creating the vase.
-vase, coords_vase, textures_vase = get_textures_vase()
-index_vertexes['vase'] = [start]
-for value in coords_vase:
-    index_vertexes['vase'].append(index_vertexes['vase'][-1] + value)
-start = len(vase) + start
+#vase, coords_vase, textures_vase = get_textures_vase()
+#index_vertexes['vase'] = [start]
+#for value in coords_vase:
+#    index_vertexes['vase'].append(index_vertexes['vase'][-1] + value)
+#start = len(vase) + start
 
 # Creating the rose.
-rose, coords_rose, textures_rose = get_textures_rose()
-index_vertexes['rose'] = [start]
-for value in coords_rose:
-    index_vertexes['rose'].append(index_vertexes['rose'][-1] + value)
-start = len(rose) + start
+#rose, coords_rose, textures_rose = get_textures_rose()
+#index_vertexes['rose'] = [start]
+#for value in coords_rose:
+#    index_vertexes['rose'].append(index_vertexes['rose'][-1] + value)
+#start = len(rose) + start
 
 # Creating the bed.
-bed, coords_bed, textures_bed = get_textures_bed()
-index_vertexes['bed'] = [start]
-for value in coords_bed:
-    index_vertexes['bed'].append(index_vertexes['bed'][-1] + value)
-start = len(bed) + start
+#bed, coords_bed, textures_bed = get_textures_bed()
+#index_vertexes['bed'] = [start]
+#for value in coords_bed:
+#    index_vertexes['bed'].append(index_vertexes['bed'][-1] + value)
+#start = len(bed) + start
 
 # Creating the ground.
-ground, coords_ground, textures_ground = get_textures_ground()
-index_vertexes['ground'] = [start]
-for value in coords_ground:
-    index_vertexes['ground'].append(index_vertexes['ground'][-1] + value)
-start = len(ground) + start
+#ground, coords_ground, textures_ground = get_textures_ground()
+#index_vertexes['ground'] = [start]
+#for value in coords_ground:
+#    index_vertexes['ground'].append(index_vertexes['ground'][-1] + value)
+#start = len(ground) + start
 
 # Creating the plant1.
-plant1, coords_plant1, textures_plant1, positions1 = get_vertexes_plant1()
-index_vertexes['plant1'] = [start]
-for value in coords_plant1:
-    index_vertexes['plant1'].append(index_vertexes['plant1'][-1] + value)
-start = len(plant1) + start
+#plant1, coords_plant1, textures_plant1, positions1 = get_vertexes_plant1()
+#index_vertexes['plant1'] = [start]
+#for value in coords_plant1:
+#    index_vertexes['plant1'].append(index_vertexes['plant1'][-1] + value)
+#start = len(plant1) + start
 
 # Creating the plant2.
-plant2, coords_plant2, textures_plant2, positions2 = get_vertexes_plant2()
-index_vertexes['plant2'] = [start]
-for value in coords_plant2:
-    index_vertexes['plant2'].append(index_vertexes['plant2'][-1] + value)
-start = len(plant2) + start
+#plant2, coords_plant2, textures_plant2, positions2 = get_vertexes_plant2()
+#index_vertexes['plant2'] = [start]
+#for value in coords_plant2:
+#    index_vertexes['plant2'].append(index_vertexes['plant2'][-1] + value)
+#start = len(plant2) + start
 
 # Creating the bird.
-bird, coords_bird, textures_bird = get_vertexes_bird()
-index_vertexes['bird'] = [start]
-for value in coords_bird:
-    index_vertexes['bird'].append(index_vertexes['bird'][-1] + value)
-start = len(bird) + start
+#bird, coords_bird, textures_bird = get_vertexes_bird()
+#index_vertexes['bird'] = [start]
+#for value in coords_bird:
+#    index_vertexes['bird'].append(index_vertexes['bird'][-1] + value)
+#start = len(bird) + start
 
 # Joining everyone
-vertexes_temp = np.concatenate((shrek, bathroom))
-vertexes_temp = np.concatenate((vertexes_temp, house))
-vertexes_temp = np.concatenate((vertexes_temp, sky))
-vertexes_temp = np.concatenate((vertexes_temp, drawer))
-vertexes_temp = np.concatenate((vertexes_temp, vase))
-vertexes_temp = np.concatenate((vertexes_temp, rose))
-vertexes_temp = np.concatenate((vertexes_temp, bed))
-vertexes_temp = np.concatenate((vertexes_temp, ground))
-vertexes_temp = np.concatenate((vertexes_temp, plant1))
-vertexes_temp = np.concatenate((vertexes_temp, plant2))
-vertexes_temp = np.concatenate((vertexes_temp, bird))
+#vertexes_temp = np.concatenate((shrek, bathroom))
+#vertexes_temp = np.concatenate((vertexes_temp, house))
+#vertexes_temp = np.concatenate((vertexes_temp, sky))
+#vertexes_temp = np.concatenate((vertexes_temp, drawer))
+#vertexes_temp = np.concatenate((vertexes_temp, vase))
+#vertexes_temp = np.concatenate((vertexes_temp, rose))
+#vertexes_temp = np.concatenate((vertexes_temp, bed))
+#vertexes_temp = np.concatenate((vertexes_temp, ground))
+#vertexes_temp = np.concatenate((vertexes_temp, plant1))
+#vertexes_temp = np.concatenate((vertexes_temp, plant2))
+#vertexes_temp = np.concatenate((vertexes_temp, bird))
 
 
-vertexes = np.zeros(len(vertexes_temp), [("position", np.float32, 3)])
-vertexes['position'] = vertexes_temp
+vertexes = np.zeros(len(house), [("position", np.float32, 3)])
+print(house)
+vertexes = house
+#vertexes['position'] = house
 
-textures_temp = textures_shrek + textures_bathroom + textures_house + textures_sky + textures_drawer + textures_vase + textures_rose + textures_bed + textures_ground + textures_plant1 + textures_plant2 + textures_bird
-textures = np.zeros(len(textures_temp), [("position", np.float32, 2)])
-textures['position'] = textures_temp
+#textures_temp = textures_shrek + textures_bathroom + textures_house + textures_sky + textures_drawer + textures_vase + textures_rose + textures_bed + textures_ground + textures_plant1 + textures_plant2 + textures_bird
+textures = np.zeros(len(textures_house), [("position", np.float32, 2)])
+#textures['position'] = textures_house
 
+#normals = np.zeros(len(normals_house), [("position", np.float32, 3)])
+#normals['position'] = normals_house
 #-----------------------------------------------------------------------------------
 
 # Sending and rendering the objects.
-send_data_to_gpu(program, vertexes, textures)
+
+print(non_emissor_object.ID)
+send_data_to_gpu(non_emissor_object, vertexes, textures)
 render_window(window)
 
 # Activating the keyboard and mouse handler function and initializing an auxiliar variable.
@@ -150,7 +160,8 @@ mat_projection, loc_projection = get_projection(program)
 loc_model = glGetUniformLocation(program, "model")
 
 #-----------------------------------------------------------------------------------
-
+lightingShader = Shader("6.multiple_lights.vs", "6.multiple_lights.fs")
+lightCubeShader = Shader("6.light_cube.vs", "6.light_cube.fs")
 sky_rotation_angle = 0.0
 
 # Code main loop.

@@ -32,9 +32,9 @@ def load_model_from_file(filename):
     Loads a Wavefront OBJ file.    
     '''
 
-    objects = {}
     vertices = []
     texture_coords = []
+    normals = []
     faces = []
 
     material = None
@@ -53,12 +53,15 @@ def load_model_from_file(filename):
         elif values[0] == 'vt':
             texture_coords.append(values[1:3])
 
+        elif values[0] == 'vn':
+            normals.append(values[1:4])
         # recuperando faces 
         elif values[0] in ('usemtl', 'usemat'):
             material = values[1]
         elif values[0] == 'f':
             face = []
             face_texture = []
+            face_normal = []
             for v in values[1:]:
                 w = v.split('/')
                 face.append(int(w[0]))
@@ -66,13 +69,18 @@ def load_model_from_file(filename):
                     face_texture.append(int(w[1]))
                 else:
                     face_texture.append(0)
+                if len(w) == 3 and w[2]:
+                    face_normal.append(int(w[2]))
+                else:
+                    face_normal.append(-1)
 
-            faces.append((face, face_texture, material))
+            faces.append((face, face_texture,face_normal, material))
 
     model = {}
     model['vertices'] = vertices
     model['texture'] = texture_coords
     model['faces'] = faces
+    model['normals'] = normals
 
     return model
 
@@ -84,19 +92,24 @@ def get_vertexes_house():
     vertexes = []
     size = []
     textures_coord_list = []
+    normals_list = []
 
-    modelo = load_model_from_file('objects/casa/house.obj')
-
+    modelo = load_model_from_file('objects/casa/untitled.obj')
+    vertexes = load_obj_to_glm_array('objects/casa/untitled.obj')
     # Allow for more the one texture.
-    faces_visited = []
-    for face in modelo['faces']:
-        if face[2] not in faces_visited:
-            size.append(len(vertexes))
-            faces_visited.append(face[2])
-        for vertice_id in face[0]:
-            vertexes.append( modelo['vertices'][vertice_id-1] )
-        for texture_id in face[1]:
-            textures_coord_list.append( modelo['texture'][texture_id-1] )
+    #faces_visited = []
+    #for face in modelo['faces']:
+    #    if face[2] not in faces_visited:
+    #        size.append(len(vertexes))
+    #        faces_visited.append(face[2])
+    #    for vertice_id in face[0]:
+    #        print(vertice_id)
+    #        vertexes.append( modelo['vertices'][vertice_id-1] )
+    #        #normals_list.append(modelo['normals'][vertice_id-1])
+    #    for texture_id in face[1]:
+    #        textures_coord_list.append( modelo['texture'][texture_id-1] )
+    #    for normal_id in face[2]:
+    #        normals_list.append(modelo['normals'][normal_id-1])
 
     load_texture_from_file(2,'objects/casa/house.jpg')
     size.append(len(vertexes))
@@ -407,3 +420,46 @@ def get_vertexes_shrek():
     print(size)
 
     return vertexes, size[1:], textures_coord_list
+
+
+def load_obj_to_glm_array(filepath):
+    vertices = []
+    normals = []
+    texcoords = []
+    faces = []
+
+    with open(filepath, 'r') as file:
+        for line in file:
+            parts = line.strip().split()
+            if not parts:
+                continue
+
+            # Vértices
+            if parts[0] == 'v':
+                vertices.append([float(x) for x in parts[1:4]])
+            
+            # Normais
+            elif parts[0] == 'vn':
+                normals.append([float(x) for x in parts[1:4]])
+            
+            # Coordenadas de textura
+            elif parts[0] == 'vt':
+                texcoords.append([float(x) for x in parts[1:3]])
+
+            # Faces
+            elif parts[0] == 'f':
+                face = []
+                for vertex in parts[1:]:
+                    v, vt, vn = (int(i) - 1 for i in vertex.split('/'))
+                    print(str (v) + " " + str(vn))
+                    face.append((v, vt, vn))
+                faces.append(face)
+        # Criando o array no formato glm.array(glm.float32)
+    glm_vertices = []
+    for face in faces:
+        for v, vt, vn in face:
+            glm_vertices.extend(vertices[v])
+            glm_vertices.extend(normals[vn])
+            glm_vertices.extend(texcoords[vt])
+    # Convertendo para glm array
+    return glm.array(glm.float32, *glm_vertices)
