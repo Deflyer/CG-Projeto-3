@@ -6,6 +6,12 @@ from geometric_transf import *
 from PIL import Image
 from OpenGL.GL import *
 import random
+import os
+
+IMAGE_RESOURCE_PATH = "./objects/"
+
+# function that loads and automatically flips an image vertically
+LOAD_IMAGE = lambda name: Image.open(os.path.join(IMAGE_RESOURCE_PATH, name)).transpose(Image.FLIP_TOP_BOTTOM)
 
 def load_texture_from_file(texture_id, img_textura):
     '''
@@ -25,6 +31,36 @@ def load_texture_from_file(texture_id, img_textura):
     image_data = img.convert("RGBA").tobytes("raw", "RGBA",0,-1)
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img_width, img_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data)
+
+def loadTexture(path: str) -> int:
+
+    textureID = glGenTextures(1)
+    
+    try:
+        img = LOAD_IMAGE(path)
+
+        nrComponents = len(img.getbands())
+
+        format = GL_RED if nrComponents == 1 else \
+                 GL_RGB if nrComponents == 3 else \
+                 GL_RGBA 
+
+        glBindTexture(GL_TEXTURE_2D, textureID)
+        glTexImage2D(GL_TEXTURE_2D, 0, format, img.width, img.height, 0, format, GL_UNSIGNED_BYTE, img.tobytes())
+        glGenerateMipmap(GL_TEXTURE_2D)
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+        print("loaded at path " + path)
+        img.close()
+
+    except:
+
+        print("Texture failed to load at path: " + path)
+
+    return textureID
 
 
 def load_model_from_file(filename):
@@ -95,25 +131,25 @@ def get_vertexes_house():
     normals_list = []
 
     modelo = load_model_from_file('objects/casa/untitled.obj')
-    vertexes = load_obj_to_glm_array('objects/casa/untitled.obj')
+    #vertexes = load_obj_to_glm_array('objects/casa/untitled.obj')
     # Allow for more the one texture.
-    #faces_visited = []
-    #for face in modelo['faces']:
-    #    if face[2] not in faces_visited:
-    #        size.append(len(vertexes))
-    #        faces_visited.append(face[2])
-    #    for vertice_id in face[0]:
-    #        print(vertice_id)
-    #        vertexes.append( modelo['vertices'][vertice_id-1] )
-    #        #normals_list.append(modelo['normals'][vertice_id-1])
-    #    for texture_id in face[1]:
-    #        textures_coord_list.append( modelo['texture'][texture_id-1] )
-    #    for normal_id in face[2]:
-    #        normals_list.append(modelo['normals'][normal_id-1])
+    faces_visited = []
+    for face in modelo['faces']:
+        if face[2] not in faces_visited:
+            size.append(len(vertexes))
+            faces_visited.append(face[2])
+        for vertice_id in face[0]:
+            print(vertice_id)
+            vertexes.append( modelo['vertices'][vertice_id-1] )
+        for texture_id in face[1]:
+            textures_coord_list.append( modelo['texture'][texture_id-1] )
+        for normal_id in face[2]:
+            normals_list.append(modelo['normals'][normal_id-1])
 
-    load_texture_from_file(2,'objects/casa/house.jpg')
+    teste = loadTexture('jureg/jureg.jpg')
+    print(teste)
     size.append(len(vertexes))
-    return vertexes, size, textures_coord_list
+    return vertexes, size, textures_coord_list, normals_list
 
 def get_vertexes_drawer():
     '''

@@ -47,33 +47,51 @@ def create_program():
     lightCubeShader = Shader("6.light_cube.vs", "6.light_cube.fs")
 
     return lightingShader, lightCubeShader
-
-def send_data_to_gpu(program, vertexes, textures):
+    
+def send_data_to_gpu(program, vertexes, textures, normals):
     '''
-    Requests GPU slots to program data and then sends this data to this slot.
+    Configura os buffers para os dados de vértices, texturas e normais carregados do arquivo OBJ,
+    adaptados ao shader que utiliza aPos, aNormal e aTexCoords.
     '''
-    cubeVAO = glGenVertexArrays(1)
-    VBO = glGenBuffers(1)
+    
+    # Extrair dados do modelo
+    program.use()
+    if glGetProgramiv(program.ID, GL_LINK_STATUS) == GL_FALSE:
+        print("Shader program não foi linkado corretamente.")
+        return
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO)
+    # Gerar e ligar VAO (se não estiver já feito)
+    VAO = glGenVertexArrays(1)
+    glBindVertexArray(VAO)
+    # Gerar buffers para cada tipo de dado
+    buffers = glGenBuffers(3)
+    # Configurar buffer de vértices para `aPos`
+    glBindBuffer(GL_ARRAY_BUFFER, buffers[0])
     glBufferData(GL_ARRAY_BUFFER, vertexes.nbytes, vertexes, GL_STATIC_DRAW)
+    stride = vertexes.strides[0]
+    offset = ctypes.c_void_p(0)
+    loc_position = glGetAttribLocation(program.ID, "aPos")
 
-    glBindVertexArray(cubeVAO)
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * glm.sizeof(glm.float32), None)
-    glEnableVertexAttribArray(0)
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * glm.sizeof(glm.float32), ctypes.c_void_p(3 * glm.sizeof(glm.float32)))
-    glEnableVertexAttribArray(1)
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * glm.sizeof(glm.float32), ctypes.c_void_p(6 * glm.sizeof(glm.float32)))
-    glEnableVertexAttribArray(2)
+    glEnableVertexAttribArray(loc_position)
+    glVertexAttribPointer(loc_position, 3, GL_FLOAT, False, stride, offset)
+    print("aqui foi")
+    # Configurar buffer de coordenadas de textura para `aTexCoords`
+    glBindBuffer(GL_ARRAY_BUFFER, buffers[1])
+    glBufferData(GL_ARRAY_BUFFER, textures.nbytes, textures, GL_STATIC_DRAW)
+    loc_texture_coord = glGetAttribLocation(program.ID, "aTexCoords")
+    glEnableVertexAttribArray(loc_texture_coord)
+    glVertexAttribPointer(loc_texture_coord, 2, GL_FLOAT, GL_FALSE, 0, ctypes.c_void_p(0))
 
-    # second, configure the light's VAO (VBO stays the same the vertices are the same for the light object which is also a 3D cube)
-    lightCubeVAO = glGenVertexArrays(1)
-    glBindVertexArray(lightCubeVAO)
+    # Configurar buffer de normais para `aNormal`
+    glBindBuffer(GL_ARRAY_BUFFER, buffers[2])
+    glBufferData(GL_ARRAY_BUFFER, normals.nbytes, normals, GL_STATIC_DRAW)
+    loc_normal = glGetAttribLocation(program.ID, "aNormal")
+    glEnableVertexAttribArray(loc_normal)
+    glVertexAttribPointer(loc_normal, 3, GL_FLOAT, GL_FALSE, 0, ctypes.c_void_p(0))
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO)
-    # note that we update the lamp's position attribute's stride to reflect the updated buffer data
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * glm.sizeof(glm.float32), None)
-    glEnableVertexAttribArray(0)
+    # Desvincula o buffer para evitar alterações acidentais
+    glBindBuffer(GL_ARRAY_BUFFER, 0)
+
 
 def render_window(window):
     '''

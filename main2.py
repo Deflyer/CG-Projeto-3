@@ -10,7 +10,7 @@ import glm
 # Configuring the screen used to show the objects with textures.
 window = init_window()
 print("foi 1")
-non_emissor_object, emissor_object = create_program()
+non_emissor_object, emisssor_object = create_program()
 print("ah bom")
 
 
@@ -124,7 +124,6 @@ vertexes = np.zeros(len(house), [("position", np.float32, 3)])
 #vertexes = house
 vertexes['position'] = house
 
-
 #textures_temp = textures_shrek + textures_bathroom + textures_house + textures_sky + textures_drawer + textures_vase + textures_rose + textures_bed + textures_ground + textures_plant1 + textures_plant2 + textures_bird
 textures = np.zeros(len(textures_house), [("position", np.float32, 2)])
 #textures['position'] = textures_house
@@ -146,24 +145,6 @@ glfw.set_key_callback(window,kb.key_event)
 #-----------------------------------------------------------------------------------
 
 # Getting GPU variables.
-pointLightPositions = [
-    glm.vec3( 0.7,  0.2,  2.0),
-    glm.vec3( 2.3, -3.3, -4.0),
-    glm.vec3(-4.0,  2.0, -12.0),
-    glm.vec3( 0.0,  0.0, -3.0)
-]
-vertices = load_obj_to_glm_array('./objects/casa/untitled.obj')
-VBO = glGenBuffers(1)
-
-glBindBuffer(GL_ARRAY_BUFFER, VBO)
-glBufferData(GL_ARRAY_BUFFER, vertices.nbytes, vertices.ptr, GL_STATIC_DRAW)
-lightCubeVAO = glGenVertexArrays(1)
-glBindVertexArray(lightCubeVAO)
-
-glBindBuffer(GL_ARRAY_BUFFER, VBO)
-# note that we update the lamp's position attribute's stride to reflect the updated buffer data
-glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * glm.sizeof(glm.float32), None)
-glEnableVertexAttribArray(0)
 
 loc_color = get_loc_color(non_emissor_object.ID)
 mat_view, loc_view = get_view(non_emissor_object.ID)
@@ -189,50 +170,13 @@ while not glfw.window_should_close(window):
 
     # Clearing screen and loading a new solid background.
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)    
-    glClearColor(0.1, 0.1, 0.1, 1.0)
-    # be sure to activate shader when setting uniforms/drawing objects
-    non_emissor_object.use()
-    non_emissor_object.setVec3("viewPos", kb.camera.Position)
+    glClearColor(1.0, 1.0, 1.0, 1.0)
     non_emissor_object.setFloat("material.shininess", 32.0)
 
-
     non_emissor_object.setVec3("dirLight.direction", -0.2, -1.0, -0.3)
-    non_emissor_object.setVec3("dirLight.ambient", 0.05, 0.05, 0.05)
+    non_emissor_object.setVec3("dirLight.ambient", 0.8, 0.05, 0.05)
     non_emissor_object.setVec3("dirLight.diffuse", 0.4, 0.4, 0.4)
     non_emissor_object.setVec3("dirLight.specular", 0.5, 0.5, 0.5)
-    # point light 1
-    non_emissor_object.setVec3("pointLights[0].position", pointLightPositions[0])
-    non_emissor_object.setVec3("pointLights[0].ambient", 0.1, 0.0, 0.0)  # Luz ambiente em vermelho
-    non_emissor_object.setVec3("pointLights[0].diffuse", 1.0, 0.0, 0.0)  # Luz de difusão em vermelho
-    non_emissor_object.setVec3("pointLights[0].specular", 1.0, 0.5, 0.5) # Luz especular com brilho vermelho-rosado
-    non_emissor_object.setFloat("pointLights[0].constant", 1.0)
-    non_emissor_object.setFloat("pointLights[0].linear", 0.09)
-    non_emissor_object.setFloat("pointLights[0].quadratic", 0.032)
-    # point light 2
-    non_emissor_object.setVec3("pointLights[1].position", pointLightPositions[1])
-    non_emissor_object.setVec3("pointLights[1].ambient", 0.05, 0.05, 0.05)
-    non_emissor_object.setVec3("pointLights[1].diffuse", 0.8, 0.8, 0.8)
-    non_emissor_object.setVec3("pointLights[1].specular", 1.0, 1.0, 1.0)
-    non_emissor_object.setFloat("pointLights[1].constant", 1.0)
-    non_emissor_object.setFloat("pointLights[1].linear", 0.09)
-    non_emissor_object.setFloat("pointLights[1].quadratic", 0.032)
-    # point light 3
-    non_emissor_object.setVec3("pointLights[2].position", pointLightPositions[2])
-    non_emissor_object.setVec3("pointLights[2].ambient", 0.05, 0.05, 0.05)
-    non_emissor_object.setVec3("pointLights[2].diffuse", 0.8, 0.8, 0.8)
-    non_emissor_object.setVec3("pointLights[2].specular", 1.0, 1.0, 1.0)
-    non_emissor_object.setFloat("pointLights[2].constant", 1.0)
-    non_emissor_object.setFloat("pointLights[2].linear", 0.09)
-    non_emissor_object.setFloat("pointLights[2].quadratic", 0.032)
-    # point light 4
-    non_emissor_object.setVec3("pointLights[3].position", pointLightPositions[3])
-    non_emissor_object.setVec3("pointLights[3].ambient", 0.05, 0.05, 0.05)
-    non_emissor_object.setVec3("pointLights[3].diffuse", 0.8, 0.8, 0.8)
-    non_emissor_object.setVec3("pointLights[3].specular", 1.0, 1.0, 1.0)
-    non_emissor_object.setFloat("pointLights[3].constant", 1.0)
-    non_emissor_object.setFloat("pointLights[3].linear", 0.09)
-    non_emissor_object.setFloat("pointLights[3].quadratic", 0.032)
-    # spotLight
     non_emissor_object.setVec3("spotLight.position", kb.camera.Position)
     non_emissor_object.setVec3("spotLight.direction", kb.camera.Front)
     non_emissor_object.setVec3("spotLight.ambient", 0.0, 0.0, 0.0)
@@ -257,23 +201,6 @@ while not glfw.window_should_close(window):
     #draw_bed(loc_model, loc_color, index_vertexes)
     #draw_ground(loc_model, loc_color, index_vertexes)
     #draw_bird(loc_model, loc_color, index_vertexes)
-
-    # also draw the lamp object(s)
-    emissor_object.use()
-    projection = glm.perspective(glm.radians(kb.camera.Zoom), 1920 / 1080, 0.1, 100.0)
-    view = kb.camera.GetViewMatrix()
-    emissor_object.setMat4("projection", projection)
-    emissor_object.setMat4("view", view)
-
-    # we now draw as many light bulbs as we have point lights.
-    glBindVertexArray(lightCubeVAO)
-    for i in range(4):
-
-        model = glm.mat4(1.0)
-        model = glm.translate(model, pointLightPositions[i])
-        model = glm.scale(model, glm.vec3(0.2)) # Make it a smaller cube
-        emissor_object.setMat4("model", model)
-        glDrawArrays(GL_TRIANGLES, 0, 36)
 
     mat_view, loc_view = get_view(non_emissor_object.ID)
     glUniformMatrix4fv(loc_view, 1, GL_TRUE, mat_view)

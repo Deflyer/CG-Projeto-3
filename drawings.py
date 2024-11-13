@@ -145,7 +145,7 @@ def draw_house(loc_model, loc_color, size):
     
     # draws each house face with a texture 
     for i in range(len(size['house']) - 1):
-        glBindTexture(GL_TEXTURE_2D, 2)
+        glBindTexture(GL_TEXTURE_2D, 1)
         glDrawArrays(GL_TRIANGLES, size['house'][i], size['house'][i +1] - size['house'][i]) ## renderizandoS 
 
 def draw_plant1(loc_model, loc_color, size, positions):
