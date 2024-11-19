@@ -29,7 +29,6 @@ def load_obj_to_glm_array(filepath):
                 face = []
                 for vertex in parts[1:]:
                     v, vt, vn = (int(i) - 1 for i in vertex.split('/'))
-                    print(str (v) + " " + str(vn))
                     face.append((v, vt, vn))
                 faces.append(face)
         # Criando o array no formato glm.array(glm.float32)
@@ -45,16 +44,16 @@ def load_obj_to_glm_array(filepath):
 def get_cubes_positions():
     # positions all containers
     cubePositions = [
-        glm.vec3( 0.0,  0.0,  0.0),
-        glm.vec3( 2.0,  5.0, -15.0),
-        glm.vec3(-1.5, -2.2, -2.5),
-        glm.vec3(-3.8, -2.0, -12.3),
-        glm.vec3( 2.4, -0.4, -3.5),
-        glm.vec3(-1.7,  3.0, -7.5),
-        glm.vec3( 1.3, -2.0, -2.5),
-        glm.vec3( 1.5,  2.0, -2.5),
-        glm.vec3( 1.5,  0.2, -1.5),
-        glm.vec3(-1.3,  1.0, -1.5)
+        glm.vec3(-2.8, -0.8, -6.8),
+        glm.vec3( 2.7, -0.95, -7.8),
+        glm.vec3( 0.0 , -1.0, 2.0),
+        glm.vec3( 20.0, 2.2, -6.0),
+        glm.vec3( 2.7, -1.0, -20.0),
+        glm.vec3( 0.0, -1.0, 0.0),
+        glm.vec3( 0.0, -1.0, -10.0),
+        glm.vec3(-2.8, -0.8, -6.8),
+        glm.vec3( 0.0, 50.0, 0.0),
+        glm.vec3( 0.0, -45, 0.0)
     ]
     
     return cubePositions
