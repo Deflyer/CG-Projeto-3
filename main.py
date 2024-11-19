@@ -48,20 +48,26 @@ if __name__ == '__main__':
     vet_idx = {}
     
     vertexes_aux_1 = load_obj_to_glm_array('./objects/rose/rose.obj')
-    vet.append({'inicio': 0, 'fim': int(len(vertexes_aux_1)/8)})
+    vet.append({'inicio': 0, 'tam': int(len(vertexes_aux_1)/8)})
     texture_aux = loadTexture("./objects/rose/rose_texture.jpg")
     textures.append(texture_aux)
     vet_idx['rose'] = 0
     
-    vertexes_aux_2 = load_obj_to_glm_array('./objects/drawer/drawer.obj')
-    ini = vet[0]['fim']
-    vet.append({'inicio': ini, 'fim': ini + int(len(vertexes_aux_2)/8)})
+    vertexes_aux_2 = load_obj_to_glm_array('./objects/bird/bird.obj')
+    ini = vet[0]['inicio'] + vet[0]['tam']
+    vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_2)/8)})
+    texture_aux = loadTexture("./objects/bird/bird.jpg")
+    textures.append(texture_aux)
+    vet_idx['bird'] = 1
+
+    vertexes_aux_3 = load_obj_to_glm_array('./objects/drawer/drawer.obj')
+    ini = vet[1]['inicio'] + vet[1]['tam']
+    vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_3)/8)})
     texture_aux = loadTexture("./objects/drawer/drawer_texture.png")
     textures.append(texture_aux)
-    vet_idx['drawer'] = 1
+    vet_idx['drawer'] = 2
 
-    combined_vertices = glm.array(glm.float32, *vertexes_aux_1[:], *vertexes_aux_2[:])
-    vertexes_aux_1 = combined_vertices
+    combined_vertices = glm.array(glm.float32, *vertexes_aux_1[:], *vertexes_aux_2[:], *vertexes_aux_3[:])
 
     pointLightPositions = get_lights_positions()
 
@@ -190,8 +196,9 @@ if __name__ == '__main__':
         lightingShader.setMat4("model", model)
 
         # render containers
-        draw_object(cubeVAO, get_position(vet_idx['rose']), textures, vet, vet_idx['rose'], lightCubeShader)       
-        draw_object(cubeVAO, get_position(vet_idx['drawer']), textures, vet, vet_idx['drawer'], lightCubeShader)      
+        draw_object(cubeVAO, get_position(vet_idx['rose']), textures, vet, vet_idx['rose'], lightCubeShader)    
+        draw_object(cubeVAO, get_position(vet_idx['bird']), textures, vet, vet_idx['bird'], lightCubeShader)
+        draw_object(cubeVAO, get_position(vet_idx['drawer']), textures, vet, vet_idx['drawer'], lightCubeShader)
 
         # also draw the lamp object(s)
         lightCubeShader.use()
@@ -210,7 +217,7 @@ if __name__ == '__main__':
             glActiveTexture(GL_TEXTURE0)
             glBindTexture(GL_TEXTURE_2D, textures[i])
 
-            glDrawArrays(GL_TRIANGLES, vet[i]['inicio'], vet[i]['fim'])
+            glDrawArrays(GL_TRIANGLES, vet[i]['inicio'], vet[i]['tam'])
 
         # glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         # -------------------------------------------------------------------------------

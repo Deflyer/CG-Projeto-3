@@ -2,7 +2,8 @@ import glm
 
 positions = [
     glm.vec3( 0.0,  0.0,  0.0), # rose
-    glm.vec3( 0.0,  0.0,  0.0)  # drawer
+    glm.vec3( 1.0,  1.0,  1.0), # drawer
+    glm.vec3( -1.0,  -1.0,  -1.0)  # bird
 ]
 
 def get_position(idx):

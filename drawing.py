@@ -17,4 +17,4 @@ def draw_object(cubeVAO, position, textures, vertexes, vet_idx, lightingShader):
     glActiveTexture(GL_TEXTURE0)
     glBindTexture(GL_TEXTURE_2D, textures[vet_idx])
 
-    glDrawArrays(GL_TRIANGLES, vertexes[vet_idx]['inicio'], vertexes[vet_idx]['fim'])
+    glDrawArrays(GL_TRIANGLES, vertexes[vet_idx]['inicio'], vertexes[vet_idx]['tam'])
