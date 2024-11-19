@@ -2,20 +2,15 @@ from OpenGL.GL import *
 from glfw.GLFW import *
 
 from glfw import _GLFWwindow as GLFWwindow
-from PIL import Image
 
-from shader_m import Shader
+from shader import Shader
 from keyboard import *
 from config_screen import *
-from vertexes import *
+from utils import *
+from positions import *
+from drawing import *
 
 import platform, ctypes, os
-
-# the relative path where the textures are located
-IMAGE_RESOURCE_PATH = "./texturas/"
-
-# function that loads and automatically flips an image vertically
-LOAD_IMAGE = lambda name: Image.open(os.path.join(IMAGE_RESOURCE_PATH, name)).transpose(Image.FLIP_TOP_BOTTOM)
 
 # settings
 SCR_WIDTH = 1920
@@ -24,7 +19,8 @@ SCR_HEIGHT = 1080
 # lighting
 lightPos = glm.vec3(1.2, 1.0, 2.0)
 
-def main() -> int:
+if __name__ == '__main__':
+    
     global deltaTime, lastFrame
 
     window = init_window()
@@ -42,22 +38,31 @@ def main() -> int:
 
     # build and compile our shader zprogram
     # ------------------------------------
-    lightingShader = Shader("6.multiple_lights.vs", "6.multiple_lights.fs")
-    lightCubeShader = Shader("6.light_cube.vs", "6.light_cube.fs")
+    lightingShader = Shader("./shaders/6.multiple_lights.vs", "./shaders/6.multiple_lights.fs")
+    lightCubeShader = Shader("./shaders/6.light_cube.vs", "./shaders/6.light_cube.fs")
     # set up vertex data (and buffer(s)) and configure vertex attributes
     # ------------------------------------------------------------------
     
     vet = []
-    vertices1 = load_obj_to_glm_array('./rose.obj')
-    vet.append({'inicio': 0, 'fim': int(len(vertices1)/8)})
+    textures = []
+    vet_idx = {}
     
-    vertices2 = load_obj_to_glm_array('./drawer.obj')
+    vertexes_aux_1 = load_obj_to_glm_array('./objects/rose/rose.obj')
+    vet.append({'inicio': 0, 'fim': int(len(vertexes_aux_1)/8)})
+    texture_aux = loadTexture("./objects/rose/rose_texture.jpg")
+    textures.append(texture_aux)
+    vet_idx['rose'] = 0
+    
+    vertexes_aux_2 = load_obj_to_glm_array('./objects/drawer/drawer.obj')
     ini = vet[0]['fim']
-    vet.append({'inicio': ini, 'fim': ini + int(len(vertices1)/8)})
-    
-    combined_vertices = glm.array(glm.float32, *vertices1[:], *vertices2[:])
+    vet.append({'inicio': ini, 'fim': ini + int(len(vertexes_aux_2)/8)})
+    texture_aux = loadTexture("./objects/drawer/drawer_texture.png")
+    textures.append(texture_aux)
+    vet_idx['drawer'] = 1
 
-    cubePositions = get_cubes_positions()
+    combined_vertices = glm.array(glm.float32, *vertexes_aux_1[:], *vertexes_aux_2[:])
+    vertexes_aux_1 = combined_vertices
+
     pointLightPositions = get_lights_positions()
 
     # first, configure the cube's VAO (and VBO)
@@ -84,15 +89,6 @@ def main() -> int:
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * glm.sizeof(glm.float32), None)
     glEnableVertexAttribArray(0)
 
-    # load textures (we now use a utility function to keep the code more organized)
-    # -----------------------------------------------------------------------------
-    textures = []
-    
-    texture0 = loadTexture("./rose_texture.jpg")
-    textures.append(texture0)
-
-    texture1 = loadTexture("./drawer_texture.png")
-    textures.append(texture1)
 
     # specularMap = loadTexture("container2_specular.png")
 
@@ -193,29 +189,9 @@ def main() -> int:
         model = glm.mat4(1.0)
         lightingShader.setMat4("model", model)
 
-        # bind diffuse map
-        
-        # bind specular map
-        # glActiveTexture(GL_TEXTURE1)
-        # glBindTexture(GL_TEXTURE_2D, specularMap)
-
         # render containers
-        glBindVertexArray(cubeVAO)
-        for i in range(2):
-
-            # calculate the model matrix for each object and pass it to shader before drawing
-            model = glm.mat4(1.0)
-            model = glm.translate(model, cubePositions[0])
-            angle = 20.0 * i
-            model = glm.scale(model, glm.vec3(0.2))
-            model = glm.rotate(model, glm.radians(angle), glm.vec3(1.0, 0.3, 0.5))
-            lightingShader.setMat4("model", model)
-
-            glActiveTexture(GL_TEXTURE0)
-            glBindTexture(GL_TEXTURE_2D, textures[i])
-
-            glDrawArrays(GL_TRIANGLES, vet[i]['inicio'], vet[i]['fim'])
-        
+        draw_object(cubeVAO, get_position(vet_idx['rose']), textures, vet, vet_idx['rose'], lightCubeShader)       
+        draw_object(cubeVAO, get_position(vet_idx['drawer']), textures, vet, vet_idx['drawer'], lightCubeShader)      
 
         # also draw the lamp object(s)
         lightCubeShader.use()
@@ -227,7 +203,7 @@ def main() -> int:
         for i in range(1):
 
             model = glm.mat4(1.0)
-            model = glm.translate(model, cubePositions[i])
+            model = glm.translate(model, pointLightPositions[i])
             model = glm.scale(model, glm.vec3(0.07)) # Make it a smaller cube
 
             lightCubeShader.setMat4("model", model)
@@ -250,39 +226,3 @@ def main() -> int:
     # glfw: terminate, clearing all previously allocated GLFW resources.
     # ------------------------------------------------------------------
     glfwTerminate()
-    return 0
-
-# utility function for loading a 2D texture from file
-# ---------------------------------------------------
-def loadTexture(path: str) -> int:
-
-    textureID = glGenTextures(1)
-    
-    try:
-        img = LOAD_IMAGE(path)
-
-        nrComponents = len(img.getbands())
-
-        format = GL_RED if nrComponents == 1 else \
-                 GL_RGB if nrComponents == 3 else \
-                 GL_RGBA 
-
-        glBindTexture(GL_TEXTURE_2D, textureID)
-        glTexImage2D(GL_TEXTURE_2D, 0, format, img.width, img.height, 0, format, GL_UNSIGNED_BYTE, img.tobytes())
-        glGenerateMipmap(GL_TEXTURE_2D)
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
-
-        img.close()
-
-    except:
-
-        print("Texture failed to load at path: " + path)
-
-    return textureID
-
-
-main()

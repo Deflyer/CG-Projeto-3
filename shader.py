@@ -99,5 +99,3 @@ class Shader:
             if (not success):
                 infoLog = glGetProgramInfoLog(shader)
                 print("ERROR::PROGRAM_LINKING_ERROR of type: " + type + "\n" + infoLog.decode() + "\n -- --------------------------------------------------- -- ")
-
-                

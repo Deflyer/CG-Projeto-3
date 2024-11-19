@@ -1,4 +1,6 @@
 import glm
+from OpenGL.GL import *
+from PIL import Image
 
 def load_obj_to_glm_array(filepath):
     vertices = []
@@ -42,30 +44,35 @@ def load_obj_to_glm_array(filepath):
     # Convertendo para glm array
     return glm.array(glm.float32, *glm_vertices)
 
-def get_cubes_positions():
-    # positions all containers
-    cubePositions = [
-        glm.vec3( 0.0,  0.0,  0.0),
-        glm.vec3( 2.0,  5.0, -15.0),
-        glm.vec3(-1.5, -2.2, -2.5),
-        glm.vec3(-3.8, -2.0, -12.3),
-        glm.vec3( 2.4, -0.4, -3.5),
-        glm.vec3(-1.7,  3.0, -7.5),
-        glm.vec3( 1.3, -2.0, -2.5),
-        glm.vec3( 1.5,  2.0, -2.5),
-        glm.vec3( 1.5,  0.2, -1.5),
-        glm.vec3(-1.3,  1.0, -1.5)
-    ]
+# function that loads and automatically flips an image vertically
+LOAD_IMAGE = lambda name: Image.open(name).transpose(Image.FLIP_TOP_BOTTOM)
+
+def loadTexture(path: str) -> int:
+
+    textureID = glGenTextures(1)
     
-    return cubePositions
+    try:
+        img = LOAD_IMAGE(path)
 
-def get_lights_positions():
-    # positions of the point lights
-    pointLightPositions = [
-        glm.vec3( 0.7,  0.2,  2.0),
-        glm.vec3( 2.3, -3.3, -4.0),
-        glm.vec3(-4.0,  2.0, -12.0),
-        glm.vec3( 0.0,  0.0, -3.0)
-    ]
+        nrComponents = len(img.getbands())
 
-    return pointLightPositions
+        format = GL_RED if nrComponents == 1 else \
+                 GL_RGB if nrComponents == 3 else \
+                 GL_RGBA 
+
+        glBindTexture(GL_TEXTURE_2D, textureID)
+        glTexImage2D(GL_TEXTURE_2D, 0, format, img.width, img.height, 0, format, GL_UNSIGNED_BYTE, img.tobytes())
+        glGenerateMipmap(GL_TEXTURE_2D)
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+
+        img.close()
+
+    except:
+
+        print("Texture failed to load at path: " + path)
+
+    return textureID
