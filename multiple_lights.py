@@ -141,9 +141,9 @@ def main() -> int:
         lightingShader.setVec3("dirLight.specular", 0.5, 0.5, 0.5)
         # point light 1
         lightingShader.setVec3("pointLights[0].position", pointLightPositions[0])
-        lightingShader.setVec3("pointLights[0].ambient", 0.05, 0.05, 0.05)
-        lightingShader.setVec3("pointLights[0].diffuse", 0.8, 0.8, 0.8)
-        lightingShader.setVec3("pointLights[0].specular", 1.0, 1.0, 1.0)
+        lightingShader.setVec3("pointLights[0].ambient", 0.0, 0.0, 0.05)  # Azul escuro para o ambiente
+        lightingShader.setVec3("pointLights[0].diffuse", 0.0, 0.0, 0.8)   # Azul médio para a luz difusa
+        lightingShader.setVec3("pointLights[0].specular", 0.0, 0.0, 1.0)  # Azul brilhante para o specular
         lightingShader.setFloat("pointLights[0].constant", 1.0)
         lightingShader.setFloat("pointLights[0].linear", 0.09)
         lightingShader.setFloat("pointLights[0].quadratic", 0.032)
@@ -175,9 +175,9 @@ def main() -> int:
         lightingShader.setVec3("spotLight.position", camera.Position)
         lightingShader.setVec3("spotLight.direction", camera.Front)
         lightingShader.setVec3("spotLight.ambient", 0.0, 0.0, 0.0)
-        lightingShader.setVec3("spotLight.diffuse", 1.0, 1.0, 1.0)
-        lightingShader.setVec3("spotLight.specular", 1.0, 1.0, 1.0)
-        lightingShader.setFloat("spotLight.constant", 1.0)
+        lightingShader.setVec3("spotLight.diffuse", 0, 0, 0)
+        lightingShader.setVec3("spotLight.specular", 0, 0, 0)
+        lightingShader.setFloat("spotLight.constant", 0)
         lightingShader.setFloat("spotLight.linear", 0.09)
         lightingShader.setFloat("spotLight.quadratic", 0.032)
         lightingShader.setFloat("spotLight.cutOff", glm.cos(glm.radians(12.5)))
@@ -227,12 +227,10 @@ def main() -> int:
         for i in range(1):
 
             model = glm.mat4(1.0)
-            model = glm.translate(model, cubePositions[i])
-            model = glm.scale(model, glm.vec3(0.07)) # Make it a smaller cube
+            model = glm.translate(model, pointLightPositions[i])
+            model = glm.scale(model, glm.vec3(0.007)) # Make it a smaller cube
 
             lightCubeShader.setMat4("model", model)
-            glActiveTexture(GL_TEXTURE0)
-            glBindTexture(GL_TEXTURE_2D, textures[i])
 
             glDrawArrays(GL_TRIANGLES, vet[i]['inicio'], vet[i]['fim'])
 

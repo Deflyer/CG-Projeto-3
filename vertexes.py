@@ -61,7 +61,7 @@ def get_cubes_positions():
 def get_lights_positions():
     # positions of the point lights
     pointLightPositions = [
-        glm.vec3( 0.7,  0.2,  2.0),
+        glm.vec3( -2.8, -0.8, -6.8),
         glm.vec3( 2.3, -3.3, -4.0),
         glm.vec3(-4.0,  2.0, -12.0),
         glm.vec3( 0.0,  0.0, -3.0)
