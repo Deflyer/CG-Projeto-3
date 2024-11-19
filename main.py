@@ -63,6 +63,16 @@ if __name__ == '__main__':
     combined_vertices = glm.array(glm.float32, *vertexes_aux_1[:], *vertexes_aux_2[:])
     vertexes_aux_1 = combined_vertices
 
+    vertexes_aux_2 = load_obj_to_glm_array('./objects/bathroom/bathroom.obj')
+    ini = vet[-1]['fim']
+    vet.append({'inicio': ini, 'fim': ini + int(len(vertexes_aux_2)/8)})
+    texture_aux = loadTexture("./objects/bathroom/diffuse.png")
+    textures.append(texture_aux)
+    vet_idx['bathroom'] = 2
+
+    combined_vertices = glm.array(glm.float32, *vertexes_aux_1[:], *vertexes_aux_2[:])
+    vertexes_aux_1 = combined_vertices
+
     pointLightPositions = get_lights_positions()
 
     # first, configure the cube's VAO (and VBO)
