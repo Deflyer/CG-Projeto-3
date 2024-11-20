@@ -7,7 +7,7 @@ from shader import Shader
 from keyboard import *
 from config_screen import *
 from utils import *
-from positions import *
+from transformations_info import *
 from drawing import *
 
 import platform, ctypes, os
@@ -42,7 +42,7 @@ if __name__ == '__main__':
     lightCubeShader = Shader("./shaders/6.light_cube.vs", "./shaders/6.light_cube.fs")
     # set up vertex data (and buffer(s)) and configure vertex attributes
     # ------------------------------------------------------------------
-    
+
     vet = []
     textures = []
     vet_idx = {}
@@ -67,7 +67,65 @@ if __name__ == '__main__':
     textures.append(texture_aux)
     vet_idx['drawer'] = 2
 
-    combined_vertices = glm.array(glm.float32, *vertexes_aux_1[:], *vertexes_aux_2[:], *vertexes_aux_3[:])
+    vertexes_aux_4 = load_obj_to_glm_array('./objects/bed/bed.obj')
+    ini = vet[2]['inicio'] + vet[2]['tam']
+    vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_4)/8)})
+    texture_aux = loadTexture("./objects/bed/bed_texture.png")
+    textures.append(texture_aux)
+    vet_idx['bed'] = 3
+
+    vertexes_aux_5 = load_obj_to_glm_array('./objects/bathroom/bathroom.obj')
+    ini = vet[3]['inicio'] + vet[3]['tam']
+    vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_5)/8)})
+    texture_aux = loadTexture("./objects/bathroom/bathroom_texture.png")
+    textures.append(texture_aux)
+    vet_idx['bathroom'] = 4
+
+    vertexes_aux_6 = load_obj_to_glm_array('./objects/rose/rose.obj')
+    ini = vet[4]['inicio'] + vet[4]['tam']
+    vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_6)/8)})
+    texture_aux = loadTexture("./objects/ground/ground_texture.jpg")
+    textures.append(texture_aux)
+    vet_idx['ground'] = 5
+
+    vertexes_aux_7 = load_obj_to_glm_array('./objects/house/house.obj')
+    ini = vet[5]['inicio'] + vet[5]['tam']
+    vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_7)/8)})
+    texture_aux = loadTexture("./objects/house/house_texture.jpg")
+    textures.append(texture_aux)
+    vet_idx['house'] = 6
+
+    vertexes_aux_8 = load_obj_to_glm_array('./objects/sky/sky.obj')
+    ini = vet[6]['inicio'] + vet[6]['tam']
+    vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_8)/8)})
+    texture_aux = loadTexture("./objects/sky/sky_texture.jpg")
+    textures.append(texture_aux)
+    vet_idx['sky'] = 7
+
+    vertexes_aux_9 = load_obj_to_glm_array('./objects/vase/vase.obj')
+    ini = vet[7]['inicio'] + vet[7]['tam']
+    vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_9)/8)})
+    texture_aux = loadTexture("./objects/vase/vase_texture.png")
+    textures.append(texture_aux)
+    vet_idx['vase'] = 8
+
+    vertexes_aux_10 = load_obj_to_glm_array('./objects/plant/plant1.obj')
+    ini = vet[8]['inicio'] + vet[8]['tam']
+    vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_10)/8)})
+    texture_aux = loadTexture("./objects/plant/plant1_texture.png")
+    textures.append(texture_aux)
+    vet_idx['plant1'] = 9
+
+    vertexes_aux_11 = load_obj_to_glm_array('./objects/plant/plant2.obj')
+    ini = vet[9]['inicio'] + vet[9]['tam']
+    vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_11)/8)})
+    texture_aux = loadTexture("./objects/plant/plant2_texture.png")
+    textures.append(texture_aux)
+    vet_idx['plant2'] = 10
+
+    combined_vertices = glm.array(glm.float32, *vertexes_aux_1[:], *vertexes_aux_2[:], *vertexes_aux_3[:], *vertexes_aux_4[:], 
+                                  *vertexes_aux_5[:], *vertexes_aux_6[:], *vertexes_aux_7[:], *vertexes_aux_8[:], *vertexes_aux_9[:],
+                                  *vertexes_aux_10[:], *vertexes_aux_11[:])
 
     pointLightPositions = get_lights_positions()
 
@@ -143,12 +201,12 @@ if __name__ == '__main__':
         lightingShader.setVec3("dirLight.specular", 0.5, 0.5, 0.5)
         # point light 1
         lightingShader.setVec3("pointLights[0].position", pointLightPositions[0])
-        lightingShader.setVec3("pointLights[0].ambient", 0.0, 0.0, 0.5)
-        lightingShader.setVec3("pointLights[0].diffuse", 0.0, 1.0, 0.0)
-        lightingShader.setVec3("pointLights[0].specular", 0.0, 0.0, 1.0)
+        lightingShader.setVec3("pointLights[0].ambient", 0.05, 0.05, 0.05)
+        lightingShader.setVec3("pointLights[0].diffuse", 0.8, 0.8, 0.8)
+        lightingShader.setVec3("pointLights[0].specular", 1.0, 1.0, 1.0)
         lightingShader.setFloat("pointLights[0].constant", 1.0)
-        lightingShader.setFloat("pointLights[0].linear", 0.01)
-        lightingShader.setFloat("pointLights[0].quadratic", 0.0002)
+        lightingShader.setFloat("pointLights[0].linear", 0.09)
+        lightingShader.setFloat("pointLights[0].quadratic", 0.032)
         # point light 2
         lightingShader.setVec3("pointLights[1].position", pointLightPositions[1])
         lightingShader.setVec3("pointLights[1].ambient", 0.05, 0.05, 0.05)
@@ -196,9 +254,18 @@ if __name__ == '__main__':
         lightingShader.setMat4("model", model)
 
         # render containers
-        draw_object(cubeVAO, get_position(vet_idx['rose']), textures, vet, vet_idx['rose'], lightCubeShader)    
-        draw_object(cubeVAO, get_position(vet_idx['bird']), textures, vet, vet_idx['bird'], lightCubeShader)
-        draw_object(cubeVAO, get_position(vet_idx['drawer']), textures, vet, vet_idx['drawer'], lightCubeShader)
+
+        draw_object(cubeVAO, textures, vet, vet_idx['rose'], lightCubeShader)    
+        # draw_object(cubeVAO, textures, vet, vet_idx['bird'], lightCubeShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['drawer'], lightCubeShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['bed'], lightCubeShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['bathroom'], lightCubeShader)
+        # draw_object(cubeVAO, textures, vet, vet_idx['ground'], lightCubeShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['house'], lightCubeShader)
+        # draw_object(cubeVAO, textures, vet, vet_idx['sky'], lightCubeShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['vase'], lightCubeShader)
+        # draw_object(cubeVAO, textures, vet, vet_idx['plant1'], lightCubeShader)
+        # draw_object(cubeVAO, textures, vet, vet_idx['plant2'], lightCubeShader)
 
         # also draw the lamp object(s)
         lightCubeShader.use()

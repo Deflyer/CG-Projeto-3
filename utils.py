@@ -31,7 +31,6 @@ def load_obj_to_glm_array(filepath):
                 face = []
                 for vertex in parts[1:]:
                     v, vt, vn = (int(i) - 1 for i in vertex.split('/'))
-                    print(str (v) + " " + str(vn))
                     face.append((v, vt, vn))
                 faces.append(face)
         # Criando o array no formato glm.array(glm.float32)
