@@ -81,7 +81,7 @@ if __name__ == '__main__':
     textures.append(texture_aux)
     vet_idx['bathroom'] = 4
 
-    vertexes_aux_6 = load_obj_to_glm_array('./objects/rose/rose.obj')
+    vertexes_aux_6 = load_obj_to_glm_array('./objects/ground/ground.obj')
     ini = vet[4]['inicio'] + vet[4]['tam']
     vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_6)/8)})
     texture_aux = loadTexture("./objects/ground/ground_texture.jpg")

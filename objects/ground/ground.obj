@@ -1,14 +1,17 @@
-# A simple 3D plane with texture coordinates
-
-v -1.0 0.0  1.0  # Vertex 1 (top-left)
-v -1.0 0.0 -1.0  # Vertex 4 (bottom-left)
-v  1.0 0.0  1.0  # Vertex 2 (top-right)
-v  1.0 0.0 -1.0  # Vertex 3 (bottom-right)
-
-vt 0.0 1.0       # Texture coordinate for Vertex 1
-vt 1.0 1.0       # Texture coordinate for Vertex 2
-vt 1.0 0.0       # Texture coordinate for Vertex 3
-vt 0.0 0.0       # Texture coordinate for Vertex 4
-
-# Define the face of the plane, referencing both vertex and texture coordinates
-f 1/1 2/2 3/3 4/4
+# Blender 4.2.3 LTS
+# www.blender.org
+mtllib chao.mtl
+o ground
+v -1.000000 0.000000 1.000000
+v -1.000000 -0.000000 -1.000000
+v 1.000000 0.000000 1.000000
+v 1.000000 -0.000000 -1.000000
+vn -0.0000 1.0000 -0.0000
+vn -0.0000 -1.0000 -0.0000
+vt 0.000000 1.000000
+vt 1.000000 0.000000
+vt 0.000000 0.000000
+vt 1.000000 1.000000
+s 0
+f 1/1/1 3/2/1 4/3/1
+f 1/1/2 2/4/2 3/2/2

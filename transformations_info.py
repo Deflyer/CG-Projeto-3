@@ -8,7 +8,7 @@ positions = [
     glm.vec3(  20.0,   2.2, -6.0),  # bathroom
     glm.vec3( 0.0,   -1.0,   0.0),  # ground
     glm.vec3(  0.0,  -1.0,  -10.0),  # house
-    glm.vec3( 0.0,  0.0,  0.0),  # sky
+    glm.vec3( 0.0, -45, 0.0),  # sky
     glm.vec3( -2.80, -0.80, -6.80),  # vase
     glm.vec3( -1.0,  -2.0,  -1.0),  # plant2
     glm.vec3( -1.0,  -2.0,  -1.0),  # plant1
@@ -23,7 +23,7 @@ scales = [
     0.003, # bathroom
     70.0, # vazio------------
     0.5, # house
-    0.05, # vazio------------
+    1.0, # sky
     0.005, # vase
     0.05, # vazio------------
     0.05, # vazio------------
@@ -38,7 +38,7 @@ rotations = [
     200.0, # bathroom
     0.0, # vazio------------
     180.0, # house
-    0.05, # vazio------------
+    0.0, # sky (tem q rotacionar)
     0.0, # vase
     0.05, # vazio------------
     0.05, # vazio------------
