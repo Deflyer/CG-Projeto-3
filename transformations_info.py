@@ -68,6 +68,7 @@ def get_lights_positions():
         glm.vec3(-4.0, 2.0, -12.0),
         glm.vec3(0.0, 0.0, -3.0)
     ]
+
     return pointLightPositions
 
 def get_positions_plants():
@@ -128,3 +129,6 @@ def get_positions_plants():
             if valid:
                 positions2.append((t_x, t_y, t_z, angle, s_x, s_y, s_z))
     return [positions1, positions2]
+
+def get_position_shrek():
+    return  glm.vec3(kb.shrek_side_step, -1.0, 2.0 + kb.shrek_step) 

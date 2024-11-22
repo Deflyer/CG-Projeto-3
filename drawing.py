@@ -1,5 +1,6 @@
 import glm
 from OpenGL.GL import *
+import keyboard as kb
 
 from transformations_info import *
 
@@ -27,10 +28,10 @@ def draw_shrek(cubeVAO, textures, vertexes, lightingShader):
 
     glBindVertexArray(cubeVAO)
     idx = 11
-    pos = get_position(idx)
+    pos = get_position_shrek()
+
     scale = get_scale(idx)
     rot_angle = get_rotation(idx)
-    #print(idx, scale)
 
     # calculate the model matrix for each object and pass it to shader before drawing
     model = glm.mat4(1.0)

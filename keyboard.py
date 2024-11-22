@@ -17,6 +17,8 @@ lastFrame = 0.0
 
 # Handles rose scale.
 rose_scale_y = 0.05
+shrek_step = 0.0
+shrek_side_step = 0.0
 
 # glfw: whenever the mouse moves, this callback is called
 # -------------------------------------------------------
@@ -48,7 +50,12 @@ def scroll_callback(window: GLFWwindow, xoffset: float, yoffset: float) -> None:
 # ---------------------------------------------------------------------------------------------------------
 def processInput(window: GLFWwindow, deltaTime) -> None:
 
-    global rose_scale_y
+    global rose_scale_y, shrek_side_step, shrek_step
+
+    exclusion_zones = [
+        (-8, -30, 6, 1),
+        (5, -9, 25, -2),             
+    ]
 
     deltaTime *= 5
 
@@ -63,18 +70,52 @@ def processInput(window: GLFWwindow, deltaTime) -> None:
         camera.ProcessKeyboard(Camera_Movement.LEFT, deltaTime)
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS):
         camera.ProcessKeyboard(Camera_Movement.RIGHT, deltaTime)
-    
-    # Grows rose ('↑' key).
     if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS):
-        print('AAAAAAAAAAAA')
-
         aux = rose_scale_y + 0.01
         rose_scale_y = min(aux, 0.13)
-
-    # Decreses rose ('↓' key).
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS):
         aux = rose_scale_y - 0.01
         rose_scale_y = max(aux,0.05)
+    if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS):
+        valid = True
+        for zone in exclusion_zones:
+                x_min, z_min, x_max, z_max = zone
+                if (x_min <= shrek_side_step <= x_max) and (z_min <= shrek_step + 1.9 <= z_max):
+                    valid = False
+        if(shrek_side_step **2  + (shrek_step - 0.5) ** 2 >= 3600):
+             valid = False
+        if valid:
+            shrek_step -= 0.5
+    if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS):
+        valid = True
+        for zone in exclusion_zones:
+                x_min, z_min, x_max, z_max = zone
+                if (x_min <= shrek_side_step -0.5 <= x_max) and (z_min <= shrek_step + 2 <= z_max):
+                    valid = False
+        if((shrek_side_step - 0.5) **2  + (shrek_step) ** 2 >= 3600):
+             valid = False
+        if valid:
+            shrek_side_step -= 0.5 
+    if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS):
+        valid = True
+        for zone in exclusion_zones:
+                x_min, z_min, x_max, z_max = zone
+                if (x_min <= shrek_side_step <= x_max) and (z_min <= shrek_step + 2.1 <= z_max):
+                    valid = False
+        if(shrek_side_step **2  + (shrek_step + 0.5) ** 2 >= 3600):
+             valid = False
+        if valid:
+            shrek_step += 0.5 
+    if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS):
+        valid = True
+        for zone in exclusion_zones:
+                x_min, z_min, x_max, z_max = zone
+                if (x_min <= shrek_side_step +0.5 <= x_max) and (z_min <= shrek_step + 2 <= z_max):
+                    valid = False
+        if((shrek_side_step + 0.5) **2  + (shrek_step) ** 2 >= 3600):
+             valid = False
+        if valid:
+            shrek_side_step += 0.5 
 
     return camera
 
