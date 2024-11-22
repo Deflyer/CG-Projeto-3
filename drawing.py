@@ -27,7 +27,7 @@ def draw_object(cubeVAO, textures, vertexes, idx, lightingShader):
 def draw_shrek(cubeVAO, textures, vertexes, lightingShader):
 
     glBindVertexArray(cubeVAO)
-    idx = 11
+    idx = 12
     pos = get_position_shrek()
 
     scale = get_scale(idx)
