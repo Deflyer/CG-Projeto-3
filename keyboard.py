@@ -15,6 +15,9 @@ firstMouse = True
 # timing
 lastFrame = 0.0
 
+# Handles rose scale.
+rose_scale_y = 0.05
+
 # glfw: whenever the mouse moves, this callback is called
 # -------------------------------------------------------
 def mouse_callback(window: GLFWwindow, xpos: float, ypos: float) -> None:
@@ -44,6 +47,9 @@ def scroll_callback(window: GLFWwindow, xoffset: float, yoffset: float) -> None:
 # process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 # ---------------------------------------------------------------------------------------------------------
 def processInput(window: GLFWwindow, deltaTime) -> None:
+
+    global rose_scale_y
+
     deltaTime *= 5
 
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS):
@@ -57,6 +63,18 @@ def processInput(window: GLFWwindow, deltaTime) -> None:
         camera.ProcessKeyboard(Camera_Movement.LEFT, deltaTime)
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS):
         camera.ProcessKeyboard(Camera_Movement.RIGHT, deltaTime)
+    
+    # Grows rose ('↑' key).
+    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS):
+        print('AAAAAAAAAAAA')
+
+        aux = rose_scale_y + 0.01
+        rose_scale_y = min(aux, 0.13)
+
+    # Decreses rose ('↓' key).
+    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS):
+        aux = rose_scale_y - 0.01
+        rose_scale_y = max(aux,0.05)
 
     return camera
 
