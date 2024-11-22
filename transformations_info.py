@@ -49,7 +49,7 @@ def get_rotations():
         0.0,  # vase
         0.05,  # plant2
         0.05,  # plant1
-        0.05   # shrek
+        180.0  # shrek
     ]
 
 def get_position(idx):
@@ -130,11 +130,7 @@ def get_positions_plants():
                     valid = False
             if valid:
                 positions2.append((t_x, t_y, t_z, angle, s_x, s_y, s_z))
-<<<<<<< HEAD
-    return [positions1, positions2]
-=======
     return [positions1, positions2]
 
 def get_position_shrek():
     return  glm.vec3(kb.shrek_side_step, -1.0, 2.0 + kb.shrek_step) 
->>>>>>> 329783860f6708f1b8b0a964763640408c2c55cd

@@ -13,7 +13,7 @@ def init_window():
 
     # glfw window creation
     # --------------------
-    window = glfwCreateWindow(WIDTH, HEIGHT, "LearnOpenGL", None, None)
+    window = glfwCreateWindow(WIDTH, HEIGHT, "Project 3", None, None)
     if (window == None):
 
         print("Failed to create GLFW window")
