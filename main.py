@@ -196,9 +196,9 @@ if __name__ == '__main__':
            
         # directional light
         lightingShader.setVec3("dirLight.direction", -0.2, -1.0, -0.3)
-        lightingShader.setVec3("dirLight.ambient", 0.05, 0.05, 0.05)
-        lightingShader.setVec3("dirLight.diffuse", 0.4, 0.4, 0.4)
-        lightingShader.setVec3("dirLight.specular", 0.5, 0.5, 0.5)
+        lightingShader.setVec3("dirLight.ambient", 1.0, 1.0, 1.0)
+        lightingShader.setVec3("dirLight.diffuse", 1.0, 1.0, 1.0)
+        lightingShader.setVec3("dirLight.specular", 1.0, 1.0, 1.0)
         # point light 1
         lightingShader.setVec3("pointLights[0].position", pointLightPositions[0])
         lightingShader.setVec3("pointLights[0].ambient", 0.05, 0.05, 0.05)
@@ -236,7 +236,7 @@ if __name__ == '__main__':
         lightingShader.setVec3("spotLight.direction", camera.Front)
         lightingShader.setVec3("spotLight.ambient", 0.0, 0.0, 0.0)
         lightingShader.setVec3("spotLight.diffuse", 0.0, 0.0, 0.0)
-        lightingShader.setVec3("spotLight.specular", 0.0, 0.0, 0.0)
+        lightingShader.setVec3("spotLight.specular", 1.0, 1.0, 1.0)
         lightingShader.setFloat("spotLight.constant", 0.0)
         lightingShader.setFloat("spotLight.linear", 0.09)
         lightingShader.setFloat("spotLight.quadratic", 0.032)
@@ -260,9 +260,9 @@ if __name__ == '__main__':
         draw_object(cubeVAO, textures, vet, vet_idx['drawer'], lightCubeShader)
         draw_object(cubeVAO, textures, vet, vet_idx['bed'], lightCubeShader)
         draw_object(cubeVAO, textures, vet, vet_idx['bathroom'], lightCubeShader)
-        # draw_object(cubeVAO, textures, vet, vet_idx['ground'], lightCubeShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['ground'], lightCubeShader)
         draw_object(cubeVAO, textures, vet, vet_idx['house'], lightCubeShader)
-        # draw_object(cubeVAO, textures, vet, vet_idx['sky'], lightCubeShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['sky'], lightCubeShader)
         draw_object(cubeVAO, textures, vet, vet_idx['vase'], lightCubeShader)
         # draw_object(cubeVAO, textures, vet, vet_idx['plant1'], lightCubeShader)
         # draw_object(cubeVAO, textures, vet, vet_idx['plant2'], lightCubeShader)

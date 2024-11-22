@@ -44,6 +44,7 @@ def scroll_callback(window: GLFWwindow, xoffset: float, yoffset: float) -> None:
 # process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 # ---------------------------------------------------------------------------------------------------------
 def processInput(window: GLFWwindow, deltaTime) -> None:
+    deltaTime *= 5
 
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS):
         glfwSetWindowShouldClose(window, True)
