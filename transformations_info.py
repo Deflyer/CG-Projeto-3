@@ -12,7 +12,7 @@ positions = [
     glm.vec3( -2.80, -0.80, -6.80),  # vase
     glm.vec3( -1.0,  -2.0,  -1.0),  # plant2
     glm.vec3( -1.0,  -2.0,  -1.0),  # plant1
-    glm.vec3( -1.0,  -2.0,  -1.0)  # plant1
+    glm.vec3( 0.0,  -1.0,  2.0)  # shrek
 ]
 
 scales = [
@@ -27,7 +27,7 @@ scales = [
     0.005, # vase
     0.05, # vazio------------
     0.05, # vazio------------
-    0.05, # vazio------------
+    2.8, # shrek------------
 ]
 
 rotations = [

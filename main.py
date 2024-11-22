@@ -123,19 +123,18 @@ if __name__ == '__main__':
     textures.append(texture_aux)
     vet_idx['plant2'] = 10
 
+    vertexes_aux_12 = load_obj_to_glm_array('./objects/shrek/shrek.obj')
+    ini = vet[10]['inicio'] + vet[10]['tam']
+    vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_12)/8)})
+    texture_aux = loadTexture("./objects/shrek/shrek.jpg")
+    textures.append(texture_aux)
+    texture_aux = loadTexture("./objects/shrek/leather.jpg")
+    textures.append(texture_aux)
+    vet_idx['shrek'] = 11
+
     combined_vertices = glm.array(glm.float32, *vertexes_aux_1[:], *vertexes_aux_2[:], *vertexes_aux_3[:], *vertexes_aux_4[:], 
                                   *vertexes_aux_5[:], *vertexes_aux_6[:], *vertexes_aux_7[:], *vertexes_aux_8[:], *vertexes_aux_9[:],
-                                  *vertexes_aux_10[:], *vertexes_aux_11[:])
-
-    vertexes_aux_2 = load_obj_to_glm_array('./objects/bathroom/bathroom.obj')
-    ini = vet[-1]['fim']
-    vet.append({'inicio': ini, 'fim': ini + int(len(vertexes_aux_2)/8)})
-    texture_aux = loadTexture("./objects/bathroom/diffuse.png")
-    textures.append(texture_aux)
-    vet_idx['bathroom'] = 2
-
-    combined_vertices = glm.array(glm.float32, *vertexes_aux_1[:], *vertexes_aux_2[:])
-    vertexes_aux_1 = combined_vertices
+                                  *vertexes_aux_10[:], *vertexes_aux_11[:], *vertexes_aux_12[:])
 
     pointLightPositions = get_lights_positions()
 
@@ -276,6 +275,7 @@ if __name__ == '__main__':
         draw_object(cubeVAO, textures, vet, vet_idx['vase'], lightCubeShader)
         # draw_object(cubeVAO, textures, vet, vet_idx['plant1'], lightCubeShader)
         # draw_object(cubeVAO, textures, vet, vet_idx['plant2'], lightCubeShader)
+        draw_shrek(cubeVAO, textures, vet, vet_idx['shrek'], lightCubeShader)
         # desenhar shrek
 
         # also draw the lamp object(s)
