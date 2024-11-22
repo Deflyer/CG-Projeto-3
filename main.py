@@ -123,18 +123,33 @@ if __name__ == '__main__':
     textures.append(texture_aux)
     vet_idx['plant2'] = 10
 
-    vertexes_aux_12 = load_obj_to_glm_array('./objects/shrek/shrek.obj')
+    vertexes_aux_12 = load_obj_to_glm_array('./objects/magic_ball/magic_ball.obj')
     ini = vet[10]['inicio'] + vet[10]['tam']
     vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_12)/8)})
+    texture_aux = loadTexture("./objects/magic_ball/magic_ball.jpg")
+    textures.append(texture_aux)
+    vet_idx['magic_ball'] = 11
+
+    vertexes_aux_13 = load_obj_to_glm_array('./objects/magic_ball/magic_ball_stand.obj')
+    ini = vet[11]['inicio'] + vet[11]['tam']
+    vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_13)/8)})
+    texture_aux = loadTexture("./objects/magic_ball/stand.jpg")
+    textures.append(texture_aux)
+    vet_idx['magic_ball_stand'] = 12
+
+    vertexes_aux_14 = load_obj_to_glm_array('./objects/shrek/shrek.obj')
+    ini = vet[12]['inicio'] + vet[12]['tam']
+    vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_14)/8)})
     texture_aux = loadTexture("./objects/shrek/shrek.jpg")
     textures.append(texture_aux)
     texture_aux = loadTexture("./objects/shrek/leather.jpg")
     textures.append(texture_aux)
-    vet_idx['shrek'] = 11
+    vet_idx['shrek'] = 13
+
 
     combined_vertices = glm.array(glm.float32, *vertexes_aux_1[:], *vertexes_aux_2[:], *vertexes_aux_3[:], *vertexes_aux_4[:], 
                                   *vertexes_aux_5[:], *vertexes_aux_6[:], *vertexes_aux_7[:], *vertexes_aux_8[:], *vertexes_aux_9[:],
-                                  *vertexes_aux_10[:], *vertexes_aux_11[:], *vertexes_aux_12[:])
+                                  *vertexes_aux_10[:], *vertexes_aux_11[:], *vertexes_aux_12[:], *vertexes_aux_13[:], *vertexes_aux_14[:])
 
     pointLightPositions = get_lights_positions()
 
@@ -276,7 +291,9 @@ if __name__ == '__main__':
         draw_object(cubeVAO, textures, vet, vet_idx['sky'], lightCubeShader)
         draw_object(cubeVAO, textures, vet, vet_idx['vase'], lightCubeShader)
         draw_plants(cubeVAO, textures, vet, lightCubeShader,plant_positions)
-        draw_shrek(cubeVAO, textures, vet, lightCubeShader)
+        draw_shrek(cubeVAO, textures, vet, vet_idx['shrek'], lightCubeShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['magic_ball'], lightCubeShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['magic_ball_stand'], lightCubeShader)
         # desenhar shrek
 
         # also draw the lamp object(s)
