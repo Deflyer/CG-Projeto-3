@@ -171,8 +171,6 @@ if __name__ == '__main__':
     lightingShader.use()
     lightingShader.setInt("material.diffuse", 0)
     lightingShader.setInt("material.specular", 1)
-    
-
 
     # render loop
     # -----------
@@ -264,6 +262,8 @@ if __name__ == '__main__':
         lightingShader.setMat4("model", model)
 
         # render containers
+
+        kb.sky_rotation_angle = (kb.sky_rotation_angle + 0.1) % 360
 
         draw_object(cubeVAO, textures, vet, vet_idx['rose'], lightCubeShader)    
         draw_object(cubeVAO, textures, vet, vet_idx['bird'], lightCubeShader)

@@ -15,8 +15,8 @@ firstMouse = True
 # timing
 lastFrame = 0.0
 
-# Handles rose scale.
 rose_scale_y = 0.05
+sky_rotation_angle = 0.0
 shrek_step = 0.0
 shrek_side_step = 0.0
 
