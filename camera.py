@@ -17,6 +17,7 @@ PITCH       =  0.0
 SPEED       =  2.5
 SENSITIVITY =  0.1
 ZOOM        =  45.0
+skyfix    = glm.vec3(0.0,  -72.0,  0.0)
 
 # An abstract camera class that processes input and calculates the corresponding Euler Angles, Vectors and Matrices for use in OpenGL
 class Camera:
@@ -66,13 +67,33 @@ class Camera:
     def ProcessKeyboard(self, direction: Camera_Movement, deltaTime: float) -> None:
         velocity = self.MovementSpeed * deltaTime
         if (direction == Camera_Movement.FORWARD):
-            self.Position += self.Front * velocity
+            valid = True
+            nova_pos =  self.Position + self.Front * velocity
+            if glm.length(nova_pos + skyfix) >= 96 or nova_pos[1] < -0.5:
+                valid = False
+            if valid:
+                self.Position = nova_pos
         if (direction == Camera_Movement.BACKWARD):
-            self.Position -= self.Front * velocity
+            valid = True
+            nova_pos =  self.Position - self.Front * velocity
+            if glm.length(nova_pos + skyfix) >= 96 or nova_pos[1] < -0.5:
+                valid = False
+            if valid:
+                self.Position = nova_pos
         if (direction == Camera_Movement.LEFT):
-            self.Position -= self.Right * velocity
+            valid = True
+            nova_pos =  self.Position - self.Right * velocity
+            if glm.length(nova_pos + skyfix) >= 96 or nova_pos[1] < -0.5:
+                valid = False
+            if valid:
+                self.Position = nova_pos
         if (direction == Camera_Movement.RIGHT):
-            self.Position += self.Right * velocity
+            valid = True
+            nova_pos =  self.Position + self.Right * velocity
+            if glm.length(nova_pos + skyfix) >= 96 or nova_pos[1] < -0.5:
+                valid = False
+            if valid:
+                self.Position = nova_pos
 
     # processes input received from a mouse input system. Expects the offset value in both the x and y direction.
     def ProcessMouseMovement(self, xoffset: float, yoffset: float, constrainPitch: bool = True) -> None:

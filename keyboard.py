@@ -22,6 +22,9 @@ bird_radius = 80.0
 bird_angle = 0.0
 shrek_step = 0.0
 shrek_side_step = 0.0
+is_lamp_on = 1
+is_ball_on = 1
+is_fire_on = 1
 
 # glfw: whenever the mouse moves, this callback is called
 # -------------------------------------------------------
@@ -59,6 +62,9 @@ def processInput(window: GLFWwindow, deltaTime) -> None:
     global bird_angle
     global shrek_side_step
     global shrek_step
+    global is_lamp_on
+    global is_ball_on
+    global is_fire_on
 
     exclusion_zones = [
         (-8, -30, 6, 1),
@@ -84,6 +90,7 @@ def processInput(window: GLFWwindow, deltaTime) -> None:
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS):
         aux = rose_scale_y - 0.01
         rose_scale_y = max(aux,0.05)
+
     if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS):
         valid = True
         for zone in exclusion_zones:
@@ -94,6 +101,7 @@ def processInput(window: GLFWwindow, deltaTime) -> None:
              valid = False
         if valid:
             shrek_step -= 0.5
+
     if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS):
         valid = True
         for zone in exclusion_zones:
@@ -104,6 +112,7 @@ def processInput(window: GLFWwindow, deltaTime) -> None:
              valid = False
         if valid:
             shrek_side_step -= 0.5 
+
     if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS):
         valid = True
         for zone in exclusion_zones:
@@ -114,6 +123,7 @@ def processInput(window: GLFWwindow, deltaTime) -> None:
              valid = False
         if valid:
             shrek_step += 0.5 
+
     if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS):
         valid = True
         for zone in exclusion_zones:
@@ -123,7 +133,14 @@ def processInput(window: GLFWwindow, deltaTime) -> None:
         if((shrek_side_step + 0.5) **2  + (shrek_step) ** 2 >= 3600):
              valid = False
         if valid:
-            shrek_side_step += 0.5 
+            shrek_side_step += 0.5
+
+    if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS):
+        is_lamp_on = not is_lamp_on
+    if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS):
+        is_ball_on = not is_ball_on 
+    if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS):
+        is_fire_on = not is_fire_on  
 
     # Speed up bird ('→' key).
     if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS):

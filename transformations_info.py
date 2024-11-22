@@ -16,7 +16,7 @@ def get_positions():
         glm.vec3(-2.80, -0.80, -6.80),  # vase
         glm.vec3(-1.0, -2.0, -1.0),     # plant2
         glm.vec3(-1.0, -2.0, -1.0),     # plant1
-        glm.vec3(2.70, 1.55, -7.0),  # lamp
+        glm.vec3(2.70, 1.55, -7.0),     # lamp
         glm.vec3(2.70, 0.7, -20.0),     # magic_ball
         glm.vec3(2.70, 0.7, -20.0),     # magic_ball_stand
         glm.vec3(0.0, -1.0, 2.0)        # shrek
@@ -74,8 +74,8 @@ def get_rotation(idx):
 def get_lights_positions():
     # Positions of the point lights
     pointLightPositions = [
-        glm.vec3(-2.80, -0.80, -6.80),
-        glm.vec3(2.3, -3.3, -4.0),
+        glm.vec3(2.70, 1.55, -7.0),
+        glm.vec3(2.70, 0.7, -20.0),
         glm.vec3(-4.0, 2.0, -12.0),
         glm.vec3(0.0, 0.0, -3.0)
     ]
