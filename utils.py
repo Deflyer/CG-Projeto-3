@@ -43,30 +43,23 @@ def load_obj_to_glm_array(filepath):
     # Convertendo para glm array
     return glm.array(glm.float32, *glm_vertices)
 
-# function that loads and automatically flips an image vertically
-LOAD_IMAGE = lambda name: Image.open(name).transpose(Image.FLIP_TOP_BOTTOM)
-
 def loadTexture(path: str) -> int:
 
     textureID = glGenTextures(1)
     
     try:
-        img = LOAD_IMAGE(path)
-
-        nrComponents = len(img.getbands())
-
-        format = GL_RED if nrComponents == 1 else \
-                 GL_RGB if nrComponents == 3 else \
-                 GL_RGBA 
+        img = Image.open(path)
 
         glBindTexture(GL_TEXTURE_2D, textureID)
-        glTexImage2D(GL_TEXTURE_2D, 0, format, img.width, img.height, 0, format, GL_UNSIGNED_BYTE, img.tobytes())
-        glGenerateMipmap(GL_TEXTURE_2D)
-
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+
+        img_width = img.size[0]
+        img_height = img.size[1]
+        image_data = img.convert("RGBA").tobytes("raw", "RGBA",0,-1)
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img_width, img_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data)
 
         img.close()
 
