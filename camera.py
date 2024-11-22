@@ -18,7 +18,6 @@ SPEED       =  2.5
 SENSITIVITY =  0.1
 ZOOM        =  45.0
 
-
 # An abstract camera class that processes input and calculates the corresponding Euler Angles, Vectors and Matrices for use in OpenGL
 class Camera:
 

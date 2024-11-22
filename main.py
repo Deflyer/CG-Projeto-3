@@ -244,7 +244,7 @@ if __name__ == '__main__':
         lightingShader.setFloat("spotLight.outerCutOff", glm.cos(glm.radians(15.0)))     
 
         # view/projection transformations
-        projection = glm.perspective(glm.radians(camera.Zoom), SCR_WIDTH / SCR_HEIGHT, 0.1, 100.0)
+        projection = glm.perspective(glm.radians(camera.Zoom), SCR_WIDTH / SCR_HEIGHT, 0.1, 1000.0)
         view = camera.GetViewMatrix()
         lightingShader.setMat4("projection", projection)
         lightingShader.setMat4("view", view)
