@@ -138,6 +138,7 @@ if __name__ == '__main__':
 
     pointLightPositions = get_lights_positions()
 
+    plant_positions = get_positions_plants()
     # first, configure the cube's VAO (and VBO)
     cubeVAO = glGenVertexArrays(1)
     VBO = glGenBuffers(1)
@@ -273,9 +274,8 @@ if __name__ == '__main__':
         draw_object(cubeVAO, textures, vet, vet_idx['house'], lightCubeShader)
         draw_object(cubeVAO, textures, vet, vet_idx['sky'], lightCubeShader)
         draw_object(cubeVAO, textures, vet, vet_idx['vase'], lightCubeShader)
-        # draw_object(cubeVAO, textures, vet, vet_idx['plant1'], lightCubeShader)
-        # draw_object(cubeVAO, textures, vet, vet_idx['plant2'], lightCubeShader)
-        draw_shrek(cubeVAO, textures, vet, vet_idx['shrek'], lightCubeShader)
+        draw_plants(cubeVAO, textures, vet, lightCubeShader,plant_positions)
+        draw_shrek(cubeVAO, textures, vet, lightCubeShader)
         # desenhar shrek
 
         # also draw the lamp object(s)

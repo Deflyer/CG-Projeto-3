@@ -1,5 +1,7 @@
 import glm
 import keyboard as kb
+import random
+import math
 
 positions = [
     glm.vec3(-2.80, -0.80, -6.80),  # rose
@@ -68,3 +70,62 @@ def get_lights_positions():
         glm.vec3(0.0, 0.0, -3.0)
     ]
     return pointLightPositions
+
+def get_positions_plants():
+    positions1 = []
+  
+    exclusion_zones = [
+    (-8, -30, 6, 60),
+    (5, -9, 25, -2),             
+    ]
+    
+    # Calcula posições fixas para as plantas
+    for i in range(3):
+        min_radius = 14 * (i + 1)
+        max_radius = 14 * (i + 2)
+        num_plants = 120 + 50 * i
+        angle_step = 360 / num_plants
+        for j in range(num_plants):
+            angle_rad = math.radians(j * angle_step + random.uniform(-10, 10))
+            radius = random.uniform(min_radius, max_radius)  
+            t_x = radius * math.cos(angle_rad)
+            t_y = -1.0                
+            t_z = radius * math.sin(angle_rad) 
+            angle = random.uniform(0, 360)
+            s_x = random.uniform(0.5, 0.7) + 0.2*i   
+            s_y = s_x                     
+            s_z = random.uniform(0.5, 0.7) + 0.2*i
+            valid = True
+            for zone in exclusion_zones:
+                x_min, z_min, x_max, z_max = zone
+                if (x_min <= t_x <= x_max) and (z_min <= t_z <= z_max):
+                    valid = False
+            if valid:
+                positions1.append((t_x, t_y, t_z, angle, s_x, s_y, s_z))
+
+    positions2 = []
+    
+    # Calcula posições fixas para as plantas
+    for i in range(3):
+        min_radius = 3 * (i + 1)
+        max_radius = 3 * (i + 2)
+        num_plants = 10
+        angle_step = (360 / num_plants) + random.uniform(0, 45)
+        for j in range(num_plants):
+            angle_rad = math.radians(j * angle_step + random.uniform(-10, 10))
+            radius = random.uniform(min_radius, max_radius)
+            t_x = radius * math.cos(angle_rad)
+            t_y = -1.0                         
+            t_z = radius * math.sin(angle_rad)
+            angle = random.uniform(0, 360)
+            s_x = random.uniform(0.01, 0.02) + 0.005*i
+            s_y = s_x                        
+            s_z = random.uniform(0.01, 0.02) + 0.005*i
+            valid = True
+            for zone in exclusion_zones:
+                x_min, z_min, x_max, z_max = zone
+                if (x_min <= t_x <= x_max) and (z_min <= t_z <= z_max):
+                    valid = False
+            if valid:
+                positions2.append((t_x, t_y, t_z, angle, s_x, s_y, s_z))
+    return [positions1, positions2]
