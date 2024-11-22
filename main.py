@@ -263,6 +263,7 @@ if __name__ == '__main__':
 
         # render containers
 
+        kb.bird_angle = (kb.bird_angle + kb.bird_speed) % 360
         kb.sky_rotation_angle = (kb.sky_rotation_angle + 0.1) % 360
 
         draw_object(cubeVAO, textures, vet, vet_idx['rose'], lightCubeShader)    

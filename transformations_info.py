@@ -3,20 +3,21 @@ import keyboard as kb
 import random
 import math
 
-positions = [
-    glm.vec3(-2.80, -0.80, -6.80),  # rose
-    glm.vec3(80.0, 50.0, 0.0),      # bird
-    glm.vec3(2.70, -0.95, -7.80),   # drawer
-    glm.vec3(2.70, -1.0, -20.0),    # bed
-    glm.vec3(20.0, 2.2, -6.0),      # bathroom
-    glm.vec3(0.0, -1.0, 0.0),       # ground
-    glm.vec3(0.0, -1.0, -10.0),     # house
-    glm.vec3(0.0, -45, 0.0),        # sky
-    glm.vec3(-2.80, -0.80, -6.80),  # vase
-    glm.vec3(-1.0, -2.0, -1.0),     # plant2
-    glm.vec3(-1.0, -2.0, -1.0),     # plant1
-    glm.vec3(0.0, -1.0, 2.0)        # shrek
-]
+def get_positions():
+    return [
+        glm.vec3(-2.80, -0.80, -6.80),  # rose
+        glm.vec3(kb.bird_radius * math.cos(kb.bird_angle), 50.0, kb.bird_radius * math.sin(kb.bird_angle)), # bird
+        glm.vec3(2.70, -0.95, -7.80),   # drawer
+        glm.vec3(2.70, -1.0, -20.0),    # bed
+        glm.vec3(20.0, 2.2, -6.0),      # bathroom
+        glm.vec3(0.0, -1.0, 0.0),       # ground
+        glm.vec3(0.0, -1.0, -10.0),     # house
+        glm.vec3(0.0, -45, 0.0),        # sky
+        glm.vec3(-2.80, -0.80, -6.80),  # vase
+        glm.vec3(-1.0, -2.0, -1.0),     # plant2
+        glm.vec3(-1.0, -2.0, -1.0),     # plant1
+        glm.vec3(0.0, -1.0, 2.0)        # shrek
+    ]
 
 # Function to compute scales dynamically
 def get_scales():
@@ -38,7 +39,7 @@ def get_scales():
 def get_rotations():
     return [
         0.0,  # rose
-        0.0,  # bird
+        - ( (360 * kb.bird_angle) / (2 * math.pi) ),  # bird
         180.0,  # drawer
         0.0,  # bed
         200.0,  # bathroom
@@ -52,7 +53,7 @@ def get_rotations():
     ]
 
 def get_position(idx):
-    return positions[idx]
+    return get_positions()[idx]
 
 def get_scale(idx):
     # Dynamically fetch scales

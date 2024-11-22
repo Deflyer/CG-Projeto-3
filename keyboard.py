@@ -17,6 +17,9 @@ lastFrame = 0.0
 
 rose_scale_y = 0.05
 sky_rotation_angle = 0.0
+bird_speed = 0.00
+bird_radius = 80.0
+bird_angle = 0.0
 
 # glfw: whenever the mouse moves, this callback is called
 # -------------------------------------------------------
@@ -49,6 +52,9 @@ def scroll_callback(window: GLFWwindow, xoffset: float, yoffset: float) -> None:
 def processInput(window: GLFWwindow, deltaTime) -> None:
 
     global rose_scale_y
+    global bird_speed
+    global bird_radius
+    global bird_angle
 
     deltaTime *= 5
 
@@ -73,6 +79,16 @@ def processInput(window: GLFWwindow, deltaTime) -> None:
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS):
         aux = rose_scale_y - 0.01
         rose_scale_y = max(aux,0.05)
+
+    # Speed up bird ('→' key).
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS):
+        aux = bird_speed + 0.01
+        bird_speed = min(aux, 0.05)
+
+    # Speed down bird ('←' key).
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS):
+        aux = bird_speed - 0.01
+        bird_speed = max(aux, 0.0)
 
     return camera
 
