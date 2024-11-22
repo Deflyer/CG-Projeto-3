@@ -56,7 +56,7 @@ if __name__ == '__main__':
     vertexes_aux_2 = load_obj_to_glm_array('./objects/bird/bird.obj')
     ini = vet[0]['inicio'] + vet[0]['tam']
     vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_2)/8)})
-    texture_aux = loadTexture("./objects/bird/bird.jpg")
+    texture_aux = loadTexture("./objects/bird/bird_texture.jpg")
     textures.append(texture_aux)
     vet_idx['bird'] = 1
 
@@ -201,7 +201,7 @@ if __name__ == '__main__':
         lightingShader.setVec3("dirLight.specular", 1.0, 1.0, 1.0)
         # point light 1
         lightingShader.setVec3("pointLights[0].position", pointLightPositions[0])
-        lightingShader.setVec3("pointLights[0].ambient", 0.05, 0.05, 0.05)
+        lightingShader.setVec3("pointLights[0].ambient", 1.0, 1.0, 1.0)
         lightingShader.setVec3("pointLights[0].diffuse", 0.8, 0.8, 0.8)
         lightingShader.setVec3("pointLights[0].specular", 1.0, 1.0, 1.0)
         lightingShader.setFloat("pointLights[0].constant", 1.0)
@@ -256,7 +256,7 @@ if __name__ == '__main__':
         # render containers
 
         draw_object(cubeVAO, textures, vet, vet_idx['rose'], lightCubeShader)    
-        # draw_object(cubeVAO, textures, vet, vet_idx['bird'], lightCubeShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['bird'], lightCubeShader)
         draw_object(cubeVAO, textures, vet, vet_idx['drawer'], lightCubeShader)
         draw_object(cubeVAO, textures, vet, vet_idx['bed'], lightCubeShader)
         draw_object(cubeVAO, textures, vet, vet_idx['bathroom'], lightCubeShader)
@@ -266,6 +266,7 @@ if __name__ == '__main__':
         draw_object(cubeVAO, textures, vet, vet_idx['vase'], lightCubeShader)
         # draw_object(cubeVAO, textures, vet, vet_idx['plant1'], lightCubeShader)
         # draw_object(cubeVAO, textures, vet, vet_idx['plant2'], lightCubeShader)
+        # desenhar shrek
 
         # also draw the lamp object(s)
         lightCubeShader.use()
