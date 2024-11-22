@@ -33,20 +33,21 @@ def get_scales():
         2.8     # shrek
     ]
 
-rotations = [
-    0.0,  # rose
-    0.0,  # bird
-    180.0,  # drawer
-    0.0,  # bed
-    200.0,  # bathroom
-    0.0,  # ground
-    180.0,  # house
-    0.0,  # sky
-    0.0,  # vase
-    0.05,  # plant2
-    0.05,  # plant1
-    0.05   # shrek
-]
+def get_rotations():
+    return [
+        0.0,  # rose
+        0.0,  # bird
+        180.0,  # drawer
+        0.0,  # bed
+        200.0,  # bathroom
+        0.0,  # ground
+        180.0,  # house
+        kb.sky_rotation_angle,  # sky
+        0.0,  # vase
+        0.05,  # plant2
+        0.05,  # plant1
+        0.05   # shrek
+    ]
 
 def get_position(idx):
     return positions[idx]
@@ -56,7 +57,7 @@ def get_scale(idx):
     return get_scales()[idx]
 
 def get_rotation(idx):
-    return rotations[idx]
+    return get_rotations()[idx]
 
 def get_lights_positions():
     # Positions of the point lights

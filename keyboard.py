@@ -15,8 +15,8 @@ firstMouse = True
 # timing
 lastFrame = 0.0
 
-# Handles rose scale.
 rose_scale_y = 0.05
+sky_rotation_angle = 0.0
 
 # glfw: whenever the mouse moves, this callback is called
 # -------------------------------------------------------
@@ -66,8 +66,6 @@ def processInput(window: GLFWwindow, deltaTime) -> None:
     
     # Grows rose ('↑' key).
     if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS):
-        print('AAAAAAAAAAAA')
-
         aux = rose_scale_y + 0.01
         rose_scale_y = min(aux, 0.13)
 
