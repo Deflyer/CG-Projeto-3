@@ -19,7 +19,7 @@ def get_positions():
         glm.vec3(2.70, 1.55, -7.0),     # lamp
         glm.vec3(2.70, 0.7, -20.0),     # magic_ball
         glm.vec3(2.70, 0.7, -20.0),     # magic_ball_stand
-        glm.vec3(0.0, -1.0, 2.0)        # shrek
+        glm.vec3(kb.shrek_side_step, -1.0, 2.0 + kb.shrek_step)        # shrek
     ]
 
 # Function to compute scales dynamically
@@ -140,6 +140,3 @@ def get_positions_plants():
             if valid:
                 positions2.append((t_x, t_y, t_z, angle, s_x, s_y, s_z))
     return [positions1, positions2]
-
-def get_position_shrek():
-    return  glm.vec3(kb.shrek_side_step, -1.0, 2.0 + kb.shrek_step) 
