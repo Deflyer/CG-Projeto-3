@@ -213,6 +213,11 @@ if __name__ == '__main__':
         glClearColor(0.5, 0.5, 0.5, 1.0)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
+        x_min = -4.8
+        x_max = 4.7
+        z_min = -23.7
+        z_max = -5
+
         # be sure to activate shader when setting uniforms/drawing objects
         lightingShader.use()
         lightingShader.setVec3("viewPos", camera.Position)
@@ -224,12 +229,14 @@ if __name__ == '__main__':
         lightingShader.setVec3("dirLight.diffuse", 0.5, 0.5, 0.5)
         lightingShader.setVec3("dirLight.specular", 0.5, 0.5, 0.5)
         lightingShader.setFloat("dirLight.space", 1)
+        lightingShader.setFloat("dirLight.normal_correction", 1)
         # point light 1
         lightingShader.setVec3("pointLights[0].position", pointLightPositions[0])
         lightingShader.setVec3("pointLights[0].ambient", 0.8 * kb.lamp_ambient * kb.is_lamp_on, (0.7)* kb.lamp_ambient * kb.is_lamp_on, (0.3)* kb.lamp_ambient * kb.is_lamp_on)
         lightingShader.setVec3("pointLights[0].diffuse", 1.0 * kb.is_lamp_on, 0.9 * kb.is_lamp_on, 0.5 * kb.is_lamp_on)
         lightingShader.setVec3("pointLights[0].specular", 0.0 * kb.is_lamp_on, 0.0 * kb.is_lamp_on, 0.0 * kb.is_lamp_on)
         lightingShader.setFloat("pointLights[0].space", 1)
+        lightingShader.setFloat("pointLights[0].normal_correction", 1)
         lightingShader.setFloat("pointLights[0].constant", 1.0)
         lightingShader.setFloat("pointLights[0].linear", 0.0009)
         lightingShader.setFloat("pointLights[0].quadratic", 0.00032)
@@ -239,6 +246,7 @@ if __name__ == '__main__':
         lightingShader.setVec3("pointLights[1].diffuse", 0.5 * kb.is_ball_on, 0.7 * kb.is_ball_on, 1.0 * kb.is_ball_on)
         lightingShader.setVec3("pointLights[1].specular", 0.6 * kb.is_ball_on, 0.7 * kb.is_ball_on, 1.0 * kb.is_ball_on)
         lightingShader.setFloat("pointLights[1].space", 1)
+        lightingShader.setFloat("pointLights[1].normal_correction", 1)
         lightingShader.setFloat("pointLights[1].constant", 1.0)
         lightingShader.setFloat("pointLights[1].linear", 0.09)
         lightingShader.setFloat("pointLights[1].quadratic", 0.032)
@@ -248,6 +256,7 @@ if __name__ == '__main__':
         lightingShader.setVec3("pointLights[2].diffuse", 0.8* kb.is_fire_on, 0.8* kb.is_fire_on, 0.8* kb.is_fire_on)
         lightingShader.setVec3("pointLights[2].specular", 1.0* kb.is_fire_on, 1.0* kb.is_fire_on, 1.0* kb.is_fire_on)
         lightingShader.setFloat("pointLights[2].space", 0)
+        lightingShader.setFloat("pointLights[2].normal_correction", 1)
         lightingShader.setFloat("pointLights[2].constant", 1.0)
         lightingShader.setFloat("pointLights[2].linear", 0.09)
         lightingShader.setFloat("pointLights[2].quadratic", 0.032)
@@ -257,6 +266,7 @@ if __name__ == '__main__':
         lightingShader.setVec3("pointLights[3].diffuse", 0.8, 0.8, 0.8)
         lightingShader.setVec3("pointLights[3].specular", 1.0, 1.0, 1.0)
         lightingShader.setFloat("pointLights[3].constant", 1.0)
+        lightingShader.setFloat("pointLights[3].normal_correction", 1)
         lightingShader.setFloat("pointLights[3].linear", 0.09)
         lightingShader.setFloat("pointLights[3].space", 1)
         lightingShader.setFloat("pointLights[3].quadratic", 0.032)
@@ -267,6 +277,7 @@ if __name__ == '__main__':
         lightingShader.setVec3("spotLight.diffuse", 0.0, 0.0, 0.0)
         lightingShader.setVec3("spotLight.specular", 1.0, 1.0, 1.0)
         lightingShader.setFloat("spotLight.constant", 0.0)
+        lightingShader.setFloat("spotLight.normal_correction", 1)
         lightingShader.setFloat("spotLight.linear", 0.09)
         lightingShader.setFloat("spotLight.quadratic", 0.032)
         lightingShader.setFloat("spotLight.space", 0)
@@ -295,9 +306,8 @@ if __name__ == '__main__':
         draw_object(cubeVAO, textures, vet, vet_idx['vase'], lightCubeShader)
         draw_object(cubeVAO, textures, vet, vet_idx['magic_ball'], lightCubeShader)
         draw_object(cubeVAO, textures, vet, vet_idx['magic_ball_stand'], lightCubeShader)
-        #draw_object(cubeVAO, textures, vet, vet_idx['lamp'], lightCubeShader)
-        draw_object(cubeVAO, textures, vet, vet_idx['house'], lightCubeShader)
-        
+        draw_object(cubeVAO, textures, vet, vet_idx['lamp'], lightCubeShader)
+        position = kb.get_camera_pos()
         lightingShader.setFloat("pointLights[0].space", 0)
         lightingShader.setFloat("pointLights[1].space", 0)
         lightingShader.setFloat("pointLights[2].space", 1)
@@ -308,6 +318,15 @@ if __name__ == '__main__':
         draw_object(cubeVAO, textures, vet, vet_idx['sky'], lightCubeShader)
         draw_plants(cubeVAO, textures, vet, lightCubeShader,plant_positions)
         draw_shrek(cubeVAO, textures, vet, vet_idx['shrek'], lightCubeShader)
+        if(x_min <= position[0] <= x_max) and (z_min <= position[2] <= z_max):
+            lightingShader.setFloat("pointLights[0].space", 1)
+            lightingShader.setFloat("pointLights[1].space", 1)
+            lightingShader.setFloat("pointLights[2].space", 0)
+            lightingShader.setFloat("pointLights[0].normal_correction", -1)
+            lightingShader.setFloat("pointLights[1].normal_correction", -1)
+        else:        
+            lightingShader.setFloat("pointLights[2].normal_correction", -1)
+        draw_object(cubeVAO, textures, vet, vet_idx['house'], lightCubeShader)
         # desenhar shrek
 
         # also draw the lamp object(s)
@@ -317,7 +336,7 @@ if __name__ == '__main__':
         
         # we now draw as many light bulbs as we have point lights.
         glBindVertexArray(lightCubeVAO)
-        for i in range(2):
+        for i in range(0):
 
             model = glm.mat4(1.0)
             model = glm.translate(model, pointLightPositions[i])

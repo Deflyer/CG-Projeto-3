@@ -188,3 +188,6 @@ def framebuffer_size_callback(window: GLFWwindow, width: int, height: int) -> No
     # make sure the viewport matches the new window dimensions note that width and 
     # height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height)
+
+def get_camera_pos():
+    return camera.Position 
