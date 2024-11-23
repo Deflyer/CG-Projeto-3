@@ -39,7 +39,6 @@ if __name__ == '__main__':
     # build and compile our shader zprogram
     # ------------------------------------
     lightingShader = Shader("./shaders/6.multiple_lights.vs", "./shaders/6.multiple_lights.fs")
-    lightCubeShader = Shader("./shaders/6.light_cube.vs", "./shaders/6.light_cube.fs")
     # set up vertex data (and buffer(s)) and configure vertex attributes
     # ------------------------------------------------------------------
 
@@ -288,25 +287,25 @@ if __name__ == '__main__':
         lightingShader.setFloat("pointLights[0].space", 1)
         lightingShader.setFloat("pointLights[1].space", 1)
         lightingShader.setFloat("pointLights[2].space", 0)
-        draw_object(cubeVAO, textures, vet, vet_idx['rose'], lightCubeShader)    
-        draw_object(cubeVAO, textures, vet, vet_idx['drawer'], lightCubeShader)
-        draw_object(cubeVAO, textures, vet, vet_idx['bed'], lightCubeShader)
-        draw_object(cubeVAO, textures, vet, vet_idx['vase'], lightCubeShader)
-        draw_object(cubeVAO, textures, vet, vet_idx['magic_ball'], lightCubeShader)
-        draw_object(cubeVAO, textures, vet, vet_idx['magic_ball_stand'], lightCubeShader)
-        draw_object(cubeVAO, textures, vet, vet_idx['lamp'], lightCubeShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['rose'], lightingShader)    
+        draw_object(cubeVAO, textures, vet, vet_idx['drawer'], lightingShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['bed'], lightingShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['vase'], lightingShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['magic_ball'], lightingShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['magic_ball_stand'], lightingShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['lamp'], lightingShader)
         position = kb.get_camera_pos()
         lightingShader.setFloat("pointLights[0].space", 0)
         lightingShader.setFloat("pointLights[1].space", 0)
         lightingShader.setFloat("pointLights[2].space", 1)
         # drawing  external objects
-        draw_object(cubeVAO, textures, vet, vet_idx['bird'], lightCubeShader)
-        draw_object(cubeVAO, textures, vet, vet_idx['bathroom'], lightCubeShader)
-        draw_object(cubeVAO, textures, vet, vet_idx['ground'], lightCubeShader)
-        draw_object(cubeVAO, textures, vet, vet_idx['sky'], lightCubeShader)
-        draw_plants(cubeVAO, textures, vet, lightCubeShader,plant_positions)
-        draw_shrek(cubeVAO, textures, vet, vet_idx['shrek'], lightCubeShader)
-        draw_object(cubeVAO, textures, vet, vet_idx['lantern'], lightCubeShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['bird'], lightingShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['bathroom'], lightingShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['ground'], lightingShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['sky'], lightingShader)
+        draw_plants(cubeVAO, textures, vet, lightingShader,plant_positions)
+        draw_shrek(cubeVAO, textures, vet, vet_idx['shrek'], lightingShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['lantern'], lightingShader)
         if(x_min <= position[0] <= x_max) and (z_min <= position[2] <= z_max) and (position[1] <= y_max):
             lightingShader.setFloat("pointLights[0].space", 1)
             lightingShader.setFloat("pointLights[1].space", 1)
@@ -315,26 +314,7 @@ if __name__ == '__main__':
             lightingShader.setFloat("pointLights[1].normal_correction", -1)
         else:        
             lightingShader.setFloat("pointLights[2].normal_correction", -1)
-        draw_object(cubeVAO, textures, vet, vet_idx['house'], lightCubeShader)
-
-        # also draw the lamp object(s)
-        lightCubeShader.use()
-        lightCubeShader.setMat4("projection", projection)
-        lightCubeShader.setMat4("view", view)
-        
-        # we now draw as many light bulbs as we have point lights.
-        glBindVertexArray(lightCubeVAO)
-        for i in range(0):
-
-            model = glm.mat4(1.0)
-            model = glm.translate(model, pointLightPositions[i])
-            model = glm.scale(model, glm.vec3(0.07)) # Make it a smaller cube
-
-            lightCubeShader.setMat4("model", model)
-            glActiveTexture(GL_TEXTURE0)
-            glBindTexture(GL_TEXTURE_2D, textures[i])
-
-            glDrawArrays(GL_TRIANGLES, vet[i]['inicio'], vet[i]['tam'])
+        draw_object(cubeVAO, textures, vet, vet_idx['house'], lightingShader)
 
         # glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         # -------------------------------------------------------------------------------
