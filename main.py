@@ -88,7 +88,7 @@ if __name__ == '__main__':
     textures.append(texture_aux)
     vet_idx['ground'] = 5
 
-    vertexes_aux_7 = load_obj_to_glm_array('./objects/house/untitled.obj')
+    vertexes_aux_7 = load_obj_to_glm_array('./objects/house/house.obj')
     ini = vet[5]['inicio'] + vet[5]['tam']
     vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_7)/8)})
     texture_aux = loadTexture("./objects/house/house_texture.jpg")
@@ -226,7 +226,7 @@ if __name__ == '__main__':
         lightingShader.setFloat("dirLight.space", 1)
         # point light 1
         lightingShader.setVec3("pointLights[0].position", pointLightPositions[0])
-        lightingShader.setVec3("pointLights[0].ambient", 0.1 * kb.is_lamp_on, (0.7/8)* kb.is_lamp_on, (0.3/8)* kb.is_lamp_on)
+        lightingShader.setVec3("pointLights[0].ambient", 0.8 * kb.lamp_ambient * kb.is_lamp_on, (0.7)* kb.lamp_ambient * kb.is_lamp_on, (0.3)* kb.lamp_ambient * kb.is_lamp_on)
         lightingShader.setVec3("pointLights[0].diffuse", 1.0 * kb.is_lamp_on, 0.9 * kb.is_lamp_on, 0.5 * kb.is_lamp_on)
         lightingShader.setVec3("pointLights[0].specular", 0.0 * kb.is_lamp_on, 0.0 * kb.is_lamp_on, 0.0 * kb.is_lamp_on)
         lightingShader.setFloat("pointLights[0].space", 1)
@@ -235,7 +235,7 @@ if __name__ == '__main__':
         lightingShader.setFloat("pointLights[0].quadratic", 0.00032)
         # point light 2
         lightingShader.setVec3("pointLights[1].position", pointLightPositions[1])
-        lightingShader.setVec3("pointLights[1].ambient", 0.1 * kb.is_ball_on, 0.1 * kb.is_ball_on, 0.3 * kb.is_ball_on)
+        lightingShader.setVec3("pointLights[1].ambient", 0.1 * kb.ball_ambient * kb.is_ball_on, 0.1 * kb.ball_ambient * kb.is_ball_on, 0.3 * kb.ball_ambient * kb.is_ball_on)
         lightingShader.setVec3("pointLights[1].diffuse", 0.5 * kb.is_ball_on, 0.7 * kb.is_ball_on, 1.0 * kb.is_ball_on)
         lightingShader.setVec3("pointLights[1].specular", 0.6 * kb.is_ball_on, 0.7 * kb.is_ball_on, 1.0 * kb.is_ball_on)
         lightingShader.setFloat("pointLights[1].space", 1)
@@ -244,7 +244,7 @@ if __name__ == '__main__':
         lightingShader.setFloat("pointLights[1].quadratic", 0.032)
         # point light 3
         lightingShader.setVec3("pointLights[2].position", pointLightPositions[2])
-        lightingShader.setVec3("pointLights[2].ambient", 0.05 * kb.is_fire_on, 0.05 * kb.is_fire_on, 0.05 * kb.is_fire_on)
+        lightingShader.setVec3("pointLights[2].ambient", 0.05 * kb.fire_ambient * kb.is_fire_on, 0.05 * kb.fire_ambient * kb.is_fire_on, 0.05 * kb.fire_ambient * kb.is_fire_on)
         lightingShader.setVec3("pointLights[2].diffuse", 0.8* kb.is_fire_on, 0.8* kb.is_fire_on, 0.8* kb.is_fire_on)
         lightingShader.setVec3("pointLights[2].specular", 1.0* kb.is_fire_on, 1.0* kb.is_fire_on, 1.0* kb.is_fire_on)
         lightingShader.setFloat("pointLights[2].space", 0)

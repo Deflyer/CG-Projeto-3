@@ -26,7 +26,10 @@ shrek_step = 0.0
 shrek_side_step = 0.0
 is_lamp_on = 1
 is_ball_on = 1
-is_fire_on = 1
+is_fire_on = 1 
+lamp_ambient = 1
+ball_ambient = 1
+fire_ambient = 1
 house_scale = 0.01
 
 # glfw: whenever the mouse moves, this callback is called
@@ -68,6 +71,9 @@ def processInput(window: GLFWwindow, deltaTime) -> None:
     global is_lamp_on
     global is_ball_on
     global is_fire_on
+    global lamp_ambient
+    global ball_ambient
+    global fire_ambient
 
     exclusion_zones = [
         (-8, -30, 6, 1),
@@ -145,17 +151,23 @@ def processInput(window: GLFWwindow, deltaTime) -> None:
     if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS):
         is_fire_on = not is_fire_on
     if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS):
-        is_lamp_on = not is_lamp_on
+        lamp_ambient -= 0.1
+        if(lamp_ambient < 0):
+            lamp_ambient = 0
     if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS):
-        is_ball_on = not is_ball_on 
+            lamp_ambient += 0.1 
     if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS):
-        is_lamp_on = not is_lamp_on
+        ball_ambient -= 0.1
+        if(ball_ambient < 0):
+            ball_ambient = 0
     if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS):
-        is_ball_on = not is_ball_on 
+        ball_ambient += 0.1 
     if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS):
-        is_lamp_on = not is_lamp_on
+        fire_ambient -= 0.1
+        if(fire_ambient < 0):
+            fire_ambient = 0
     if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS):
-        is_ball_on = not is_ball_on   
+        fire_ambient += 0.1   
 
     # Speed up bird ('→' key).
     if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS):
