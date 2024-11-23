@@ -224,6 +224,7 @@ if __name__ == '__main__':
         x_max = 4.7
         z_min = -23.7
         z_max = -5
+        y_max = 10
 
         # be sure to activate shader when setting uniforms/drawing objects
         lightingShader.use()
@@ -239,9 +240,9 @@ if __name__ == '__main__':
         lightingShader.setFloat("dirLight.normal_correction", 1)
         # point light 1
         lightingShader.setVec3("pointLights[0].position", pointLightPositions[0])
-        lightingShader.setVec3("pointLights[0].ambient", 0.8 * kb.lamp_ambient * kb.is_lamp_on, (0.7)* kb.lamp_ambient * kb.is_lamp_on, (0.3)* kb.lamp_ambient * kb.is_lamp_on)
-        lightingShader.setVec3("pointLights[0].diffuse", 1.0 * kb.is_lamp_on, 0.9 * kb.is_lamp_on, 0.5 * kb.is_lamp_on)
-        lightingShader.setVec3("pointLights[0].specular", 0.0 * kb.is_lamp_on, 0.0 * kb.is_lamp_on, 0.0 * kb.is_lamp_on)
+        lightingShader.setVec3("pointLights[0].ambient", 0.8 * kb.ambient * kb.is_lamp_on, (0.7)* kb.ambient * kb.is_lamp_on, (0.3)* kb.ambient * kb.is_lamp_on)
+        lightingShader.setVec3("pointLights[0].diffuse", 1.0 *  kb.is_lamp_on * kb.diffuse, 0.9 *  kb.is_lamp_on * kb.diffuse, 0.5 *  kb.is_lamp_on * kb.diffuse)
+        lightingShader.setVec3("pointLights[0].specular", 0.0 *  kb.is_lamp_on * kb.specular, 0.0 *  kb.is_lamp_on * kb.specular, 0.0 *  kb.is_lamp_on * kb.specular)
         lightingShader.setFloat("pointLights[0].space", 1)
         lightingShader.setFloat("pointLights[0].normal_correction", 1)
         lightingShader.setFloat("pointLights[0].constant", 1.0)
@@ -249,9 +250,9 @@ if __name__ == '__main__':
         lightingShader.setFloat("pointLights[0].quadratic", 0.00032)
         # point light 2
         lightingShader.setVec3("pointLights[1].position", pointLightPositions[1])
-        lightingShader.setVec3("pointLights[1].ambient", 0.1 * kb.ball_ambient * kb.is_ball_on, 0.1 * kb.ball_ambient * kb.is_ball_on, 0.3 * kb.ball_ambient * kb.is_ball_on)
-        lightingShader.setVec3("pointLights[1].diffuse", 0.5 * kb.is_ball_on, 0.7 * kb.is_ball_on, 1.0 * kb.is_ball_on)
-        lightingShader.setVec3("pointLights[1].specular", 0.6 * kb.is_ball_on, 0.7 * kb.is_ball_on, 1.0 * kb.is_ball_on)
+        lightingShader.setVec3("pointLights[1].ambient", 0.1 * kb.ambient * kb.is_ball_on, 0.1 * kb.ambient * kb.is_ball_on, 0.3 * kb.ambient * kb.is_ball_on)
+        lightingShader.setVec3("pointLights[1].diffuse", 0.5 * kb.diffuse * kb.is_ball_on, 0.7 * kb.diffuse * kb.is_ball_on, 1.0 * kb.diffuse * kb.is_ball_on)
+        lightingShader.setVec3("pointLights[1].specular", 0.6 * kb.specular * kb.is_ball_on, 0.7 * kb.specular * kb.is_ball_on, 1.0 * kb.specular * kb.is_ball_on)
         lightingShader.setFloat("pointLights[1].space", 1)
         lightingShader.setFloat("pointLights[1].normal_correction", 1)
         lightingShader.setFloat("pointLights[1].constant", 1.0)
@@ -259,19 +260,19 @@ if __name__ == '__main__':
         lightingShader.setFloat("pointLights[1].quadratic", 0.032)
         # point light 3
         lightingShader.setVec3("pointLights[2].position", pointLightPositions[2])
-        lightingShader.setVec3("pointLights[2].ambient", 1.0 * kb.fire_ambient * kb.is_fire_on, 1.0 * kb.fire_ambient * kb.is_fire_on, 1.0 * kb.fire_ambient * kb.is_fire_on)
-        lightingShader.setVec3("pointLights[2].diffuse", 0.8* kb.is_fire_on, 0.8* kb.is_fire_on, 0.8* kb.is_fire_on)
-        lightingShader.setVec3("pointLights[2].specular", 1.0* kb.is_fire_on, 1.0* kb.is_fire_on, 1.0* kb.is_fire_on)
+        lightingShader.setVec3("pointLights[2].ambient", 0.3 * kb.ambient * kb.is_fire_on, 0.1 * kb.ambient * kb.is_fire_on, 0.1 * kb.ambient * kb.is_fire_on)
+        lightingShader.setVec3("pointLights[2].diffuse", 1.0 * kb.diffuse * kb.is_fire_on, 0.2 * kb.diffuse * kb.is_fire_on, 0.2 * kb.diffuse * kb.is_fire_on)
+        lightingShader.setVec3("pointLights[2].specular", 1.0 * kb.specular * kb.is_fire_on, 0.2 * kb.specular * kb.is_fire_on, 0.2 * kb.specular * kb.is_fire_on)
         lightingShader.setFloat("pointLights[2].space", 0)
         lightingShader.setFloat("pointLights[2].normal_correction", 1)
         lightingShader.setFloat("pointLights[2].constant", 1.0)
-        lightingShader.setFloat("pointLights[2].linear", 0.09)
-        lightingShader.setFloat("pointLights[2].quadratic", 0.032)
+        lightingShader.setFloat("pointLights[2].linear", 0.02)
+        lightingShader.setFloat("pointLights[2].quadratic", 0.0032)
         # point light 4
         lightingShader.setVec3("pointLights[3].position", pointLightPositions[3])
-        lightingShader.setVec3("pointLights[3].ambient", 0.05, 0.05, 0.05)
-        lightingShader.setVec3("pointLights[3].diffuse", 0.8, 0.8, 0.8)
-        lightingShader.setVec3("pointLights[3].specular", 1.0, 1.0, 1.0)
+        lightingShader.setVec3("pointLights[3].ambient", 0, 0, 0)
+        lightingShader.setVec3("pointLights[3].diffuse", 0, 0, 0)
+        lightingShader.setVec3("pointLights[3].specular", 0, 0, 0)
         lightingShader.setFloat("pointLights[3].constant", 1.0)
         lightingShader.setFloat("pointLights[3].normal_correction", 1)
         lightingShader.setFloat("pointLights[3].linear", 0.09)
@@ -307,6 +308,9 @@ if __name__ == '__main__':
         kb.sky_rotation_angle = (kb.sky_rotation_angle + 0.1) % 360
 
         # drawing internal objects
+        lightingShader.setFloat("pointLights[0].space", 1)
+        lightingShader.setFloat("pointLights[1].space", 1)
+        lightingShader.setFloat("pointLights[2].space", 0)
         draw_object(cubeVAO, textures, vet, vet_idx['rose'], lightCubeShader)    
         draw_object(cubeVAO, textures, vet, vet_idx['drawer'], lightCubeShader)
         draw_object(cubeVAO, textures, vet, vet_idx['bed'], lightCubeShader)
@@ -326,7 +330,7 @@ if __name__ == '__main__':
         draw_plants(cubeVAO, textures, vet, lightCubeShader,plant_positions)
         draw_shrek(cubeVAO, textures, vet, vet_idx['shrek'], lightCubeShader)
         draw_object(cubeVAO, textures, vet, vet_idx['lantern'], lightCubeShader)
-        if(x_min <= position[0] <= x_max) and (z_min <= position[2] <= z_max):
+        if(x_min <= position[0] <= x_max) and (z_min <= position[2] <= z_max) and (position[1] <= y_max):
             lightingShader.setFloat("pointLights[0].space", 1)
             lightingShader.setFloat("pointLights[1].space", 1)
             lightingShader.setFloat("pointLights[2].space", 0)
