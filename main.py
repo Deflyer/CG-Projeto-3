@@ -284,9 +284,12 @@ if __name__ == '__main__':
         kb.sky_rotation_angle = (kb.sky_rotation_angle + 0.1) % 360
 
         # drawing internal objects
+
+        # Deactivating effects from outside lights in inside objects.
         lightingShader.setFloat("pointLights[0].space", 1)
         lightingShader.setFloat("pointLights[1].space", 1)
         lightingShader.setFloat("pointLights[2].space", 0)
+        
         draw_object(cubeVAO, textures, vet, vet_idx['rose'], lightingShader)    
         draw_object(cubeVAO, textures, vet, vet_idx['drawer'], lightingShader)
         draw_object(cubeVAO, textures, vet, vet_idx['bed'], lightingShader)
@@ -295,6 +298,8 @@ if __name__ == '__main__':
         draw_object(cubeVAO, textures, vet, vet_idx['magic_ball_stand'], lightingShader)
         draw_object(cubeVAO, textures, vet, vet_idx['lamp'], lightingShader)
         position = kb.get_camera_pos()
+
+        # Deactivating effects from inside lights in outside objects.
         lightingShader.setFloat("pointLights[0].space", 0)
         lightingShader.setFloat("pointLights[1].space", 0)
         lightingShader.setFloat("pointLights[2].space", 1)
@@ -306,6 +311,8 @@ if __name__ == '__main__':
         draw_plants(cubeVAO, textures, vet, lightingShader,plant_positions)
         draw_shrek(cubeVAO, textures, vet, vet_idx['shrek'], lightingShader)
         draw_object(cubeVAO, textures, vet, vet_idx['lantern'], lightingShader)
+
+        # If camera inside house, inverts normals.
         if(x_min <= position[0] <= x_max) and (z_min <= position[2] <= z_max) and (position[1] <= y_max):
             lightingShader.setFloat("pointLights[0].space", 1)
             lightingShader.setFloat("pointLights[1].space", 1)
