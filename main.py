@@ -250,7 +250,7 @@ if __name__ == '__main__':
         lightingShader.setFloat("pointLights[0].quadratic", 0.00032)
         # point light 2
         lightingShader.setVec3("pointLights[1].position", pointLightPositions[1])
-        lightingShader.setVec3("pointLights[1].ambient", 0.1 * kb.ambient * kb.is_ball_on, 0.1 * kb.ambient * kb.is_ball_on, 0.3 * kb.ambient * kb.is_ball_on)
+        lightingShader.setVec3("pointLights[1].ambient", 0.3 * kb.ambient * kb.is_ball_on, 0.3 * kb.ambient * kb.is_ball_on, 0.9 * kb.ambient * kb.is_ball_on)
         lightingShader.setVec3("pointLights[1].diffuse", 0.5 * kb.diffuse * kb.is_ball_on, 0.7 * kb.diffuse * kb.is_ball_on, 1.0 * kb.diffuse * kb.is_ball_on)
         lightingShader.setVec3("pointLights[1].specular", 0.6 * kb.specular * kb.is_ball_on, 0.7 * kb.specular * kb.is_ball_on, 1.0 * kb.specular * kb.is_ball_on)
         lightingShader.setFloat("pointLights[1].space", 1)
@@ -260,7 +260,7 @@ if __name__ == '__main__':
         lightingShader.setFloat("pointLights[1].quadratic", 0.032)
         # point light 3
         lightingShader.setVec3("pointLights[2].position", pointLightPositions[2])
-        lightingShader.setVec3("pointLights[2].ambient", 0.3 * kb.ambient * kb.is_fire_on, 0.1 * kb.ambient * kb.is_fire_on, 0.1 * kb.ambient * kb.is_fire_on)
+        lightingShader.setVec3("pointLights[2].ambient", 0.9 * kb.ambient * kb.is_fire_on, 0.3 * kb.ambient * kb.is_fire_on, 0.3 * kb.ambient * kb.is_fire_on)
         lightingShader.setVec3("pointLights[2].diffuse", 1.0 * kb.diffuse * kb.is_fire_on, 0.2 * kb.diffuse * kb.is_fire_on, 0.2 * kb.diffuse * kb.is_fire_on)
         lightingShader.setVec3("pointLights[2].specular", 1.0 * kb.specular * kb.is_fire_on, 0.2 * kb.specular * kb.is_fire_on, 0.2 * kb.specular * kb.is_fire_on)
         lightingShader.setFloat("pointLights[2].space", 0)
@@ -268,29 +268,6 @@ if __name__ == '__main__':
         lightingShader.setFloat("pointLights[2].constant", 1.0)
         lightingShader.setFloat("pointLights[2].linear", 0.02)
         lightingShader.setFloat("pointLights[2].quadratic", 0.0032)
-        # point light 4
-        lightingShader.setVec3("pointLights[3].position", pointLightPositions[3])
-        lightingShader.setVec3("pointLights[3].ambient", 0, 0, 0)
-        lightingShader.setVec3("pointLights[3].diffuse", 0, 0, 0)
-        lightingShader.setVec3("pointLights[3].specular", 0, 0, 0)
-        lightingShader.setFloat("pointLights[3].constant", 1.0)
-        lightingShader.setFloat("pointLights[3].normal_correction", 1)
-        lightingShader.setFloat("pointLights[3].linear", 0.09)
-        lightingShader.setFloat("pointLights[3].space", 1)
-        lightingShader.setFloat("pointLights[3].quadratic", 0.032)
-        # spotLight
-        lightingShader.setVec3("spotLight.position", camera.Position)
-        lightingShader.setVec3("spotLight.direction", camera.Front)
-        lightingShader.setVec3("spotLight.ambient", 0.0, 0.0, 0.0)
-        lightingShader.setVec3("spotLight.diffuse", 0.0, 0.0, 0.0)
-        lightingShader.setVec3("spotLight.specular", 1.0, 1.0, 1.0)
-        lightingShader.setFloat("spotLight.constant", 0.0)
-        lightingShader.setFloat("spotLight.normal_correction", 1)
-        lightingShader.setFloat("spotLight.linear", 0.09)
-        lightingShader.setFloat("spotLight.quadratic", 0.032)
-        lightingShader.setFloat("spotLight.space", 0)
-        lightingShader.setFloat("spotLight.cutOff", glm.cos(glm.radians(12.5)))
-        lightingShader.setFloat("spotLight.outerCutOff", glm.cos(glm.radians(15.0)))     
 
         # view/projection transformations
         projection = glm.perspective(glm.radians(camera.Zoom), SCR_WIDTH / SCR_HEIGHT, 0.1, 1000.0)
