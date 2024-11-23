@@ -130,35 +130,40 @@ if __name__ == '__main__':
     textures.append(texture_aux)
     vet_idx['lamp'] = 11
 
-    vertexes_aux_13 = load_obj_to_glm_array('./objects/magic_ball/magic_ball.obj')
+    vertexes_aux_13 = load_obj_to_glm_array('./objects/lantern/lantern.obj')
     ini = vet[11]['inicio'] + vet[11]['tam']
     vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_13)/8)})
-    texture_aux = loadTexture("./objects/magic_ball/magic_ball.jpg")
+    texture_aux = loadTexture("./objects/lantern/lantern_texture.jpg")
     textures.append(texture_aux)
-    vet_idx['magic_ball'] = 12
+    vet_idx['lantern'] = 12
 
-
-    vertexes_aux_14 = load_obj_to_glm_array('./objects/magic_ball/magic_ball_stand.obj')
+    vertexes_aux_14 = load_obj_to_glm_array('./objects/magic_ball/magic_ball.obj')
     ini = vet[12]['inicio'] + vet[12]['tam']
     vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_14)/8)})
-    texture_aux = loadTexture("./objects/magic_ball/stand.jpg")
+    texture_aux = loadTexture("./objects/magic_ball/magic_ball.jpg")
     textures.append(texture_aux)
-    vet_idx['magic_ball_stand'] = 13
+    vet_idx['magic_ball'] = 13
 
-    vertexes_aux_15 = load_obj_to_glm_array('./objects/shrek/shrek.obj')
+    vertexes_aux_15 = load_obj_to_glm_array('./objects/magic_ball/magic_ball_stand.obj')
     ini = vet[13]['inicio'] + vet[13]['tam']
     vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_15)/8)})
+    texture_aux = loadTexture("./objects/magic_ball/stand.jpg")
+    textures.append(texture_aux)
+    vet_idx['magic_ball_stand'] = 14
+
+    vertexes_aux_16 = load_obj_to_glm_array('./objects/shrek/shrek.obj')
+    ini = vet[14]['inicio'] + vet[14]['tam']
+    vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_16)/8)})
     texture_aux = loadTexture("./objects/shrek/shrek.jpg")
     textures.append(texture_aux)
     texture_aux = loadTexture("./objects/shrek/leather.jpg")
     textures.append(texture_aux)
-    vet_idx['shrek'] = 14
+    vet_idx['shrek'] = 15
 
     combined_vertices = glm.array(glm.float32, *vertexes_aux_1[:], *vertexes_aux_2[:], *vertexes_aux_3[:], *vertexes_aux_4[:], 
                                   *vertexes_aux_5[:], *vertexes_aux_6[:], *vertexes_aux_7[:], *vertexes_aux_8[:], *vertexes_aux_9[:],
-                                  *vertexes_aux_10[:], *vertexes_aux_11[:], *vertexes_aux_12[:], *vertexes_aux_13[:], *vertexes_aux_14[:], *vertexes_aux_15[:])
-
-    pointLightPositions = get_lights_positions()
+                                  *vertexes_aux_10[:], *vertexes_aux_11[:], *vertexes_aux_12[:], *vertexes_aux_13[:], *vertexes_aux_14[:],
+                                  *vertexes_aux_15[:], *vertexes_aux_16[:])
 
     plant_positions = get_positions_plants()
     # first, configure the cube's VAO (and VBO)
@@ -213,6 +218,8 @@ if __name__ == '__main__':
         glClearColor(0.5, 0.5, 0.5, 1.0)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
+        pointLightPositions = get_lights_positions()
+
         x_min = -4.8
         x_max = 4.7
         z_min = -23.7
@@ -252,7 +259,7 @@ if __name__ == '__main__':
         lightingShader.setFloat("pointLights[1].quadratic", 0.032)
         # point light 3
         lightingShader.setVec3("pointLights[2].position", pointLightPositions[2])
-        lightingShader.setVec3("pointLights[2].ambient", 0.05 * kb.fire_ambient * kb.is_fire_on, 0.05 * kb.fire_ambient * kb.is_fire_on, 0.05 * kb.fire_ambient * kb.is_fire_on)
+        lightingShader.setVec3("pointLights[2].ambient", 1.0 * kb.fire_ambient * kb.is_fire_on, 1.0 * kb.fire_ambient * kb.is_fire_on, 1.0 * kb.fire_ambient * kb.is_fire_on)
         lightingShader.setVec3("pointLights[2].diffuse", 0.8* kb.is_fire_on, 0.8* kb.is_fire_on, 0.8* kb.is_fire_on)
         lightingShader.setVec3("pointLights[2].specular", 1.0* kb.is_fire_on, 1.0* kb.is_fire_on, 1.0* kb.is_fire_on)
         lightingShader.setFloat("pointLights[2].space", 0)
@@ -318,6 +325,7 @@ if __name__ == '__main__':
         draw_object(cubeVAO, textures, vet, vet_idx['sky'], lightCubeShader)
         draw_plants(cubeVAO, textures, vet, lightCubeShader,plant_positions)
         draw_shrek(cubeVAO, textures, vet, vet_idx['shrek'], lightCubeShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['lantern'], lightCubeShader)
         if(x_min <= position[0] <= x_max) and (z_min <= position[2] <= z_max):
             lightingShader.setFloat("pointLights[0].space", 1)
             lightingShader.setFloat("pointLights[1].space", 1)
@@ -327,7 +335,6 @@ if __name__ == '__main__':
         else:        
             lightingShader.setFloat("pointLights[2].normal_correction", -1)
         draw_object(cubeVAO, textures, vet, vet_idx['house'], lightCubeShader)
-        # desenhar shrek
 
         # also draw the lamp object(s)
         lightCubeShader.use()
