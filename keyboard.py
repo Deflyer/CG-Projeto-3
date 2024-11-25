@@ -1,22 +1,20 @@
+# File that handles all keyboard functionalities.
+
+import glm
 from glfw import _GLFWwindow as GLFWwindow
 from glfw.GLFW import *
 from OpenGL.GL import *
-from camera import Camera, Camera_Movement
-import glm
+import camera as cam
+import config_screen as cs
 
-WIDTH = 1920
-HEIGHT = 1080
-
-camera = Camera(glm.vec3(0.0, 0.0, 3.0))
-lastX = WIDTH / 2.0
-lastY = HEIGHT / 2.0
+camera = cam.Camera(glm.vec3(0.0, 0.0, 3.0))
+lastX = cs.WIDTH / 2.0
+lastY = cs.HEIGHT / 2.0
 firstMouse = True
-
-# timing
-global house_scale
 
 lastFrame = 0.0
 
+# Transformations auxiliar variables.
 rose_scale_y = 0.05
 sky_rotation_angle = 0.0
 bird_speed = 0.00
@@ -24,17 +22,22 @@ bird_radius = 80.0
 bird_angle = 0.0
 shrek_step = 0.0
 shrek_side_step = 0.0
+
+# Turn on/off lights auxiliar variables.
 is_lamp_on = 1
 is_ball_on = 1
 is_fire_on = 1 
+
+# Increase/decrease light components auxiliar variables.
 ambient = 1
 diffuse = 1
 specular = 1
-house_scale = 0.01
 
-# glfw: whenever the mouse moves, this callback is called
-# -------------------------------------------------------
 def mouse_callback(window: GLFWwindow, xpos: float, ypos: float) -> None:
+    '''
+    Whenever the mouse moves, this callback is called.
+    '''
+    
     global lastX, lastY, firstMouse
 
     if (firstMouse):
@@ -44,28 +47,27 @@ def mouse_callback(window: GLFWwindow, xpos: float, ypos: float) -> None:
         firstMouse = False
 
     xoffset = xpos - lastX
-    yoffset = lastY - ypos # reversed since y-coordinates go from bottom to top
+    yoffset = lastY - ypos # Reversed since y-coordinates go from bottom to top.
 
     lastX = xpos
     lastY = ypos
 
     camera.ProcessMouseMovement(xoffset, yoffset)
 
-# glfw: whenever the mouse scroll wheel scrolls, this callback is called
-# ----------------------------------------------------------------------
 def scroll_callback(window: GLFWwindow, xoffset: float, yoffset: float) -> None:
+    '''
+    Whenever the mouse scroll wheel scrolls, this callback is called.
+    '''
 
     camera.ProcessMouseScroll(yoffset)
 
-
-# process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
-# ---------------------------------------------------------------------------------------------------------
 def processInput(window: GLFWwindow, deltaTime) -> None:
+    '''
+    Process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly.
+    '''
 
     global rose_scale_y
     global bird_speed
-    global bird_radius
-    global bird_angle
     global shrek_side_step
     global shrek_step
     global is_lamp_on
@@ -75,24 +77,27 @@ def processInput(window: GLFWwindow, deltaTime) -> None:
     global diffuse
     global specular
 
+    # House and bathroom (Shrek cant enter these areas).
     exclusion_zones = [
         (-8, -30, 6, 1),
         (5, -9, 25, -2),             
     ]
 
-    deltaTime *= 5
-
+    # Closes window.
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS):
         glfwSetWindowShouldClose(window, True)
 
+    # Movees camera.
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS):
-        camera.ProcessKeyboard(Camera_Movement.FORWARD, deltaTime)
+        camera.ProcessKeyboard(cam.Camera_Movement.FORWARD, deltaTime)
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS):
-        camera.ProcessKeyboard(Camera_Movement.BACKWARD, deltaTime)
+        camera.ProcessKeyboard(cam.Camera_Movement.BACKWARD, deltaTime)
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS):
-        camera.ProcessKeyboard(Camera_Movement.LEFT, deltaTime)
+        camera.ProcessKeyboard(cam.Camera_Movement.LEFT, deltaTime)
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS):
-        camera.ProcessKeyboard(Camera_Movement.RIGHT, deltaTime)
+        camera.ProcessKeyboard(cam.Camera_Movement.RIGHT, deltaTime)
+
+    # Scales rose.
     if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS):
         aux = rose_scale_y + 0.01
         rose_scale_y = min(aux, 0.13)
@@ -100,6 +105,7 @@ def processInput(window: GLFWwindow, deltaTime) -> None:
         aux = rose_scale_y - 0.01
         rose_scale_y = max(aux,0.05)
 
+    # Moves Shrek.
     if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS):
         valid = True
         for zone in exclusion_zones:
@@ -110,7 +116,6 @@ def processInput(window: GLFWwindow, deltaTime) -> None:
              valid = False
         if valid:
             shrek_step -= 0.5
-
     if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS):
         valid = True
         for zone in exclusion_zones:
@@ -121,7 +126,6 @@ def processInput(window: GLFWwindow, deltaTime) -> None:
              valid = False
         if valid:
             shrek_side_step -= 0.5 
-
     if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS):
         valid = True
         for zone in exclusion_zones:
@@ -131,8 +135,7 @@ def processInput(window: GLFWwindow, deltaTime) -> None:
         if(shrek_side_step **2  + (shrek_step + 0.5) ** 2 >= 3600):
              valid = False
         if valid:
-            shrek_step += 0.5 
-
+            shrek_step += 0.5
     if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS):
         valid = True
         for zone in exclusion_zones:
@@ -144,50 +147,56 @@ def processInput(window: GLFWwindow, deltaTime) -> None:
         if valid:
             shrek_side_step += 0.5
 
+    # Turn on/off lights.
     if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS):
         is_lamp_on = not is_lamp_on
     if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS):
         is_ball_on = not is_ball_on 
     if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS):
         is_fire_on = not is_fire_on
+
+    # Increases/decreses light components intensity.
     if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS):
         ambient -= 0.1
         if(ambient < 0):
             ambient = 0
     if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS):
             ambient += 0.1 
-    if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS):
+    if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS):
         diffuse -= 0.1
         if(diffuse < 0):
             diffuse = 0
-    if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS):
+    if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS):
         diffuse += 0.1 
-    if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS):
+    if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS):
         specular -= 0.1
         if(specular < 0):
             specular = 0
-    if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS):
+    if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS):
         specular += 0.1   
 
-    # Speed up bird ('→' key).
+    # Speed up/down bird.
     if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS):
         aux = bird_speed + 0.01
         bird_speed = min(aux, 0.05)
-
-    # Speed down bird ('←' key).
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS):
         aux = bird_speed - 0.01
         bird_speed = max(aux, 0.0)
 
     return camera
 
-# glfw: whenever the window size changed (by OS or user resize) this callback function executes
-# ---------------------------------------------------------------------------------------------
 def framebuffer_size_callback(window: GLFWwindow, width: int, height: int) -> None:
+    '''
+    Whenever the window size changed (by OS or user resize) this callback function executes.
+    '''
 
-    # make sure the viewport matches the new window dimensions note that width and 
+    # Make sure the viewport matches the new window dimensions note that width and 
     # height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height)
 
 def get_camera_pos():
+    '''
+    Returns camera current position.
+    '''
+    
     return camera.Position 

@@ -7,7 +7,7 @@ from enum import Enum
 # Default camera values
 YAW         = -90.0
 PITCH       =  0.0
-SPEED       =  2.5
+SPEED       =  12.5
 SENSITIVITY =  0.1
 ZOOM        =  45.0
 
