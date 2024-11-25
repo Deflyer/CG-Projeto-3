@@ -16,3 +16,12 @@ def init_window():
     glfwMakeContextCurrent(window)
 
     return window
+
+def set_callbacks(window, frame_cb, mouse_cb, scroll_cb):
+    '''
+    Inicializates all the needed callbacks.
+    '''
+
+    glfwSetFramebufferSizeCallback(window, frame_cb)
+    glfwSetCursorPosCallback(window, mouse_cb)
+    glfwSetScrollCallback(window, scroll_cb)
