@@ -1,8 +1,9 @@
-import glm
+# Handles all lighting functionalities.
 
+import glm
 import keyboard as kb
 
-# Valores difusos
+# As specified, each object drawed has its own diffuse parameters.
 diffuse_values = [
     (1.0, 0.1, 0.1),  # rose
     (1.0, 0.5, 0.0),  # bird
@@ -22,7 +23,7 @@ diffuse_values = [
     (0.0, 1.0, 0.0),  # shrek
 ]
 
-# Valores especulares
+# As specified, each object drawed has its own specular parameters.
 specular_values = [
     (0.5, 0.2, 0.2),  # rose
     (0.6, 0.2, 0.2),  # bird
@@ -43,15 +44,18 @@ specular_values = [
 ]
 
 def apply_light_param(lightingShader, pointLightPositions, idx):
+    '''
+    Applies for each object its own lighting parameters.
+    '''
 
-    # directional light
+    # Directional light.
     lightingShader.setVec3("dirLight.direction", -0.2, -1.0, -0.3)
     lightingShader.setVec3("dirLight.ambient", 0.5, 0.5, 0.5)
     lightingShader.setVec3("dirLight.diffuse", diffuse_values[idx][0] *  0.5, diffuse_values[idx][1] *  0.5, diffuse_values[idx][2] *  0.5)
     lightingShader.setVec3("dirLight.specular", specular_values[idx][0] *  0.5, specular_values[idx][1] *  0.5, specular_values[idx][2] *  0.5)
     lightingShader.setFloat("dirLight.normal_correction", 1)
 
-    # point light 1
+    # Point light 1.
     lightingShader.setVec3("pointLights[0].position", pointLightPositions[0])
     lightingShader.setVec3("pointLights[0].ambient", 0.8 * kb.ambient * kb.is_lamp_on, (0.7)* kb.ambient * kb.is_lamp_on, (0.3)* kb.ambient * kb.is_lamp_on)
     lightingShader.setVec3("pointLights[0].diffuse", diffuse_values[idx][0] *  kb.is_lamp_on * kb.diffuse, diffuse_values[idx][1] *  kb.is_lamp_on * kb.diffuse, diffuse_values[idx][2] *  kb.is_lamp_on * kb.diffuse)
@@ -61,7 +65,7 @@ def apply_light_param(lightingShader, pointLightPositions, idx):
     lightingShader.setFloat("pointLights[0].linear", 0.0009)
     lightingShader.setFloat("pointLights[0].quadratic", 0.00032)
 
-    # point light 2
+    # Point light 2.
     lightingShader.setVec3("pointLights[1].position", pointLightPositions[1])
     lightingShader.setVec3("pointLights[1].ambient", 0.3 * kb.ambient * kb.is_ball_on, 0.3 * kb.ambient * kb.is_ball_on, 0.9 * kb.ambient * kb.is_ball_on)
     lightingShader.setVec3("pointLights[1].diffuse", diffuse_values[idx][0] * kb.diffuse * kb.is_ball_on, diffuse_values[idx][1] * kb.diffuse * kb.is_ball_on, diffuse_values[idx][2] * kb.diffuse * kb.is_ball_on)
@@ -71,7 +75,7 @@ def apply_light_param(lightingShader, pointLightPositions, idx):
     lightingShader.setFloat("pointLights[1].linear", 0.09)
     lightingShader.setFloat("pointLights[1].quadratic", 0.032)
 
-    # point light 3
+    # Point light 3.
     lightingShader.setVec3("pointLights[2].position", pointLightPositions[2])
     lightingShader.setVec3("pointLights[2].ambient", 0.9 * kb.ambient * kb.is_fire_on, 0.3 * kb.ambient * kb.is_fire_on, 0.3 * kb.ambient * kb.is_fire_on)
     lightingShader.setVec3("pointLights[2].diffuse", diffuse_values[idx][0] * kb.diffuse * kb.is_fire_on, diffuse_values[idx][1] * kb.diffuse * kb.is_fire_on, diffuse_values[idx][2] * kb.diffuse * kb.is_fire_on)
