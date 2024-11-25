@@ -42,7 +42,7 @@ specular_values = [
     (0.0, 1.0, 0.0),  # shrek
 ]
 
-def aplicar_luz_param(lightingShader, pointLightPositions, idx):
+def apply_light_param(lightingShader, pointLightPositions, idx):
 
     # directional light
     lightingShader.setVec3("dirLight.direction", -0.2, -1.0, -0.3)

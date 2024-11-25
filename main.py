@@ -274,7 +274,7 @@ if __name__ == '__main__':
         draw_object(cubeVAO, textures, vet, vet_idx['bathroom'], lightingShader, pointLightPositions)
         draw_object(cubeVAO, textures, vet, vet_idx['ground'], lightingShader, pointLightPositions)
         draw_object(cubeVAO, textures, vet, vet_idx['sky'], lightingShader, pointLightPositions)
-        draw_plants(cubeVAO, textures, vet, lightingShader, plant_positions, pointLightPositions)
+        draw_plants(cubeVAO, textures, vet, vet_idx['plant1'], lightingShader, plant_positions, pointLightPositions)
         draw_shrek(cubeVAO, textures, vet, vet_idx['shrek'], lightingShader, pointLightPositions)
         draw_object(cubeVAO, textures, vet, vet_idx['lantern'], lightingShader, pointLightPositions)
 
