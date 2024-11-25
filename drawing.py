@@ -1,12 +1,15 @@
 import glm
 from OpenGL.GL import *
 import keyboard as kb
+from lights import *
 
 from transformations_info import *
 
-def draw_object(cubeVAO, textures, vertexes, idx, lightingShader):
+def draw_object(cubeVAO, textures, vertexes, idx, lightingShader, pointLightPositions):
 
     glBindVertexArray(cubeVAO)
+
+    aplicar_luz_param(lightingShader, pointLightPositions, idx)
 
     pos = get_position(idx)
     scale = get_scale(idx)
@@ -24,11 +27,13 @@ def draw_object(cubeVAO, textures, vertexes, idx, lightingShader):
 
     glDrawArrays(GL_TRIANGLES, vertexes[idx]['inicio'], vertexes[idx]['tam'])
 
-def draw_shrek(cubeVAO, textures, vertexes, idx, lightingShader):
+def draw_shrek(cubeVAO, textures, vertexes, idx, lightingShader, pointLightPositions):
 
     glBindVertexArray(cubeVAO)
-    pos = get_position(idx)
 
+    aplicar_luz_param(lightingShader, pointLightPositions, idx)
+
+    pos = get_position(idx)
     scale = get_scale(idx)
     rot_angle = get_rotation(idx)
 
@@ -49,8 +54,12 @@ def draw_shrek(cubeVAO, textures, vertexes, idx, lightingShader):
 
     glDrawArrays(GL_TRIANGLES, vertexes[idx]['inicio'] + 5112, 1086)
 
-def draw_plants(cubeVAO, textures, vertexes, lightingShader, plants_positions):
+def draw_plants(cubeVAO, textures, vertexes, lightingShader, plants_positions, pointLightPositions):
+
     idx = 9
+    
+    aplicar_luz_param(lightingShader, pointLightPositions, idx)
+
     for plant in plants_positions:
         glBindVertexArray(cubeVAO)
         for (t_x, t_y, t_z, angle, s_x, s_y, s_z) in plant:

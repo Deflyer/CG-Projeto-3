@@ -78,7 +78,7 @@ def get_lights_positions():
     obj_pos = get_positions()
     # Positions of the point lights
     pointLightPositions = [
-        glm.vec3(2.70, 1.55, -7.0),
+        glm.vec3(10, 20.55, -7.0),
         glm.vec3(2.70, 0.7, -20.0),
         obj_pos[12], # lantern position
         glm.vec3(0.0, 0.0, -3.0)

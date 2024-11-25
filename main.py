@@ -9,6 +9,7 @@ from config_screen import *
 from utils import *
 from transformations_info import *
 from drawing import *
+from lights import *
 
 import platform, ctypes, os
 
@@ -229,44 +230,6 @@ if __name__ == '__main__':
         lightingShader.use()
         lightingShader.setVec3("viewPos", camera.Position)
         lightingShader.setFloat("material.shininess", 2.0)
-           
-        # directional light
-        lightingShader.setVec3("dirLight.direction", -0.2, -1.0, -0.3)
-        lightingShader.setVec3("dirLight.ambient", 0.5, 0.5, 0.5)
-        lightingShader.setVec3("dirLight.diffuse", 0.5, 0.5, 0.5)
-        lightingShader.setVec3("dirLight.specular", 0.5, 0.5, 0.5)
-        lightingShader.setFloat("dirLight.space", 1)
-        lightingShader.setFloat("dirLight.normal_correction", 1)
-        # point light 1
-        lightingShader.setVec3("pointLights[0].position", pointLightPositions[0])
-        lightingShader.setVec3("pointLights[0].ambient", 0.8 * kb.ambient * kb.is_lamp_on, (0.7)* kb.ambient * kb.is_lamp_on, (0.3)* kb.ambient * kb.is_lamp_on)
-        lightingShader.setVec3("pointLights[0].diffuse", 1.0 *  kb.is_lamp_on * kb.diffuse, 0.9 *  kb.is_lamp_on * kb.diffuse, 0.5 *  kb.is_lamp_on * kb.diffuse)
-        lightingShader.setVec3("pointLights[0].specular", 0.0 *  kb.is_lamp_on * kb.specular, 0.0 *  kb.is_lamp_on * kb.specular, 0.0 *  kb.is_lamp_on * kb.specular)
-        lightingShader.setFloat("pointLights[0].space", 1)
-        lightingShader.setFloat("pointLights[0].normal_correction", 1)
-        lightingShader.setFloat("pointLights[0].constant", 1.0)
-        lightingShader.setFloat("pointLights[0].linear", 0.0009)
-        lightingShader.setFloat("pointLights[0].quadratic", 0.00032)
-        # point light 2
-        lightingShader.setVec3("pointLights[1].position", pointLightPositions[1])
-        lightingShader.setVec3("pointLights[1].ambient", 0.3 * kb.ambient * kb.is_ball_on, 0.3 * kb.ambient * kb.is_ball_on, 0.9 * kb.ambient * kb.is_ball_on)
-        lightingShader.setVec3("pointLights[1].diffuse", 0.5 * kb.diffuse * kb.is_ball_on, 0.7 * kb.diffuse * kb.is_ball_on, 1.0 * kb.diffuse * kb.is_ball_on)
-        lightingShader.setVec3("pointLights[1].specular", 0.6 * kb.specular * kb.is_ball_on, 0.7 * kb.specular * kb.is_ball_on, 1.0 * kb.specular * kb.is_ball_on)
-        lightingShader.setFloat("pointLights[1].space", 1)
-        lightingShader.setFloat("pointLights[1].normal_correction", 1)
-        lightingShader.setFloat("pointLights[1].constant", 1.0)
-        lightingShader.setFloat("pointLights[1].linear", 0.09)
-        lightingShader.setFloat("pointLights[1].quadratic", 0.032)
-        # point light 3
-        lightingShader.setVec3("pointLights[2].position", pointLightPositions[2])
-        lightingShader.setVec3("pointLights[2].ambient", 0.9 * kb.ambient * kb.is_fire_on, 0.3 * kb.ambient * kb.is_fire_on, 0.3 * kb.ambient * kb.is_fire_on)
-        lightingShader.setVec3("pointLights[2].diffuse", 1.0 * kb.diffuse * kb.is_fire_on, 0.2 * kb.diffuse * kb.is_fire_on, 0.2 * kb.diffuse * kb.is_fire_on)
-        lightingShader.setVec3("pointLights[2].specular", 1.0 * kb.specular * kb.is_fire_on, 0.2 * kb.specular * kb.is_fire_on, 0.2 * kb.specular * kb.is_fire_on)
-        lightingShader.setFloat("pointLights[2].space", 0)
-        lightingShader.setFloat("pointLights[2].normal_correction", 1)
-        lightingShader.setFloat("pointLights[2].constant", 1.0)
-        lightingShader.setFloat("pointLights[2].linear", 0.02)
-        lightingShader.setFloat("pointLights[2].quadratic", 0.0032)
 
         # view/projection transformations
         projection = glm.perspective(glm.radians(camera.Zoom), SCR_WIDTH / SCR_HEIGHT, 0.1, 1000.0)
@@ -289,39 +252,43 @@ if __name__ == '__main__':
         lightingShader.setFloat("pointLights[0].space", 1)
         lightingShader.setFloat("pointLights[1].space", 1)
         lightingShader.setFloat("pointLights[2].space", 0)
+        lightingShader.setFloat("dirLight.space", 0)
         
-        draw_object(cubeVAO, textures, vet, vet_idx['rose'], lightingShader)    
-        draw_object(cubeVAO, textures, vet, vet_idx['drawer'], lightingShader)
-        draw_object(cubeVAO, textures, vet, vet_idx['bed'], lightingShader)
-        draw_object(cubeVAO, textures, vet, vet_idx['vase'], lightingShader)
-        draw_object(cubeVAO, textures, vet, vet_idx['magic_ball'], lightingShader)
-        draw_object(cubeVAO, textures, vet, vet_idx['magic_ball_stand'], lightingShader)
-        draw_object(cubeVAO, textures, vet, vet_idx['lamp'], lightingShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['rose'], lightingShader, pointLightPositions)    
+        draw_object(cubeVAO, textures, vet, vet_idx['drawer'], lightingShader, pointLightPositions)
+        draw_object(cubeVAO, textures, vet, vet_idx['bed'], lightingShader, pointLightPositions)
+        draw_object(cubeVAO, textures, vet, vet_idx['vase'], lightingShader, pointLightPositions)
+        draw_object(cubeVAO, textures, vet, vet_idx['magic_ball'], lightingShader, pointLightPositions)
+        draw_object(cubeVAO, textures, vet, vet_idx['magic_ball_stand'], lightingShader, pointLightPositions)
+        draw_object(cubeVAO, textures, vet, vet_idx['lamp'], lightingShader, pointLightPositions)
         position = kb.get_camera_pos()
 
         # Deactivating effects from inside lights in outside objects.
         lightingShader.setFloat("pointLights[0].space", 0)
         lightingShader.setFloat("pointLights[1].space", 0)
         lightingShader.setFloat("pointLights[2].space", 1)
+        lightingShader.setFloat("dirLight.space", 1)
+        
         # drawing  external objects
-        draw_object(cubeVAO, textures, vet, vet_idx['bird'], lightingShader)
-        draw_object(cubeVAO, textures, vet, vet_idx['bathroom'], lightingShader)
-        draw_object(cubeVAO, textures, vet, vet_idx['ground'], lightingShader)
-        draw_object(cubeVAO, textures, vet, vet_idx['sky'], lightingShader)
-        draw_plants(cubeVAO, textures, vet, lightingShader,plant_positions)
-        draw_shrek(cubeVAO, textures, vet, vet_idx['shrek'], lightingShader)
-        draw_object(cubeVAO, textures, vet, vet_idx['lantern'], lightingShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['bird'], lightingShader, pointLightPositions)
+        draw_object(cubeVAO, textures, vet, vet_idx['bathroom'], lightingShader, pointLightPositions)
+        draw_object(cubeVAO, textures, vet, vet_idx['ground'], lightingShader, pointLightPositions)
+        draw_object(cubeVAO, textures, vet, vet_idx['sky'], lightingShader, pointLightPositions)
+        draw_plants(cubeVAO, textures, vet, lightingShader, plant_positions, pointLightPositions)
+        draw_shrek(cubeVAO, textures, vet, vet_idx['shrek'], lightingShader, pointLightPositions)
+        draw_object(cubeVAO, textures, vet, vet_idx['lantern'], lightingShader, pointLightPositions)
 
         # If camera inside house, inverts normals.
         if(x_min <= position[0] <= x_max) and (z_min <= position[2] <= z_max) and (position[1] <= y_max):
             lightingShader.setFloat("pointLights[0].space", 1)
             lightingShader.setFloat("pointLights[1].space", 1)
             lightingShader.setFloat("pointLights[2].space", 0)
+            lightingShader.setFloat("dirLight.space", 0)
             lightingShader.setFloat("pointLights[0].normal_correction", -1)
             lightingShader.setFloat("pointLights[1].normal_correction", -1)
         else:        
             lightingShader.setFloat("pointLights[2].normal_correction", -1)
-        draw_object(cubeVAO, textures, vet, vet_idx['house'], lightingShader)
+        draw_object(cubeVAO, textures, vet, vet_idx['house'], lightingShader, pointLightPositions)
 
         # glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         # -------------------------------------------------------------------------------
