@@ -1,53 +1,66 @@
+# Useful functions that dont have enough semantic to be in another module.
+
 import glm
 from OpenGL.GL import *
 from PIL import Image
 
 def load_obj_to_glm_array(filepath):
+    '''
+    Returns the vertexes of a given OBJ file.
+    '''
+
     vertices = []
     normals = []
     texcoords = []
     faces = []
 
     with open(filepath, 'r') as file:
+
         for line in file:
             parts = line.strip().split()
             if not parts:
                 continue
 
-            # Vértices
+            # Vertexes.
             if parts[0] == 'v':
                 vertices.append([float(x) for x in parts[1:4]])
             
-            # Normais
+            # Normals.
             elif parts[0] == 'vn':
                 normals.append([float(x) for x in parts[1:4]])
             
-            # Coordenadas de textura
+            # Texture coordinates.
             elif parts[0] == 'vt':
                 texcoords.append([float(x) for x in parts[1:3]])
 
-            # Faces
+            # Faces.
             elif parts[0] == 'f':
                 face = []
                 for vertex in parts[1:]:
                     v, vt, vn = (int(i) - 1 for i in vertex.split('/'))
                     face.append((v, vt, vn))
                 faces.append(face)
-        # Criando o array no formato glm.array(glm.float32)
+
+    # Creating the array in glm.array(glm.float32) format.
     glm_vertices = []
     for face in faces:
         for v, vt, vn in face:
             glm_vertices.extend(vertices[v])
             glm_vertices.extend(normals[vn])
             glm_vertices.extend(texcoords[vt])
-    # Convertendo para glm array
+
+    # Coverting to glm array.
     return glm.array(glm.float32, *glm_vertices)
 
 def loadTexture(path: str) -> int:
+    '''
+    Loads a texture of a given file (PNG, JPG).
+    '''
 
     textureID = glGenTextures(1)
     
     try:
+        
         img = Image.open(path)
 
         glBindTexture(GL_TEXTURE_2D, textureID)
