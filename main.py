@@ -39,7 +39,7 @@ if __name__ == '__main__':
 
     # build and compile our shader zprogram
     # ------------------------------------
-    lightingShader = Shader("./shaders/6.multiple_lights.vs", "./shaders/6.multiple_lights.fs")
+    lightingShader = Shader("./shaders/scene.vs", "./shaders/scene.fs")
     # set up vertex data (and buffer(s)) and configure vertex attributes
     # ------------------------------------------------------------------
 
@@ -137,26 +137,26 @@ if __name__ == '__main__':
     textures.append(texture_aux)
     vet_idx['lantern'] = 12
 
-    vertexes_aux_14 = load_obj_to_glm_array('./objects/magic_ball/magic_ball.obj')
+    vertexes_aux_14 = load_obj_to_glm_array('./objects/magic_ball/ball.obj')
     ini = vet[12]['inicio'] + vet[12]['tam']
     vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_14)/8)})
-    texture_aux = loadTexture("./objects/magic_ball/magic_ball.jpg")
+    texture_aux = loadTexture("./objects/magic_ball/ball_texture.jpg")
     textures.append(texture_aux)
     vet_idx['magic_ball'] = 13
 
-    vertexes_aux_15 = load_obj_to_glm_array('./objects/magic_ball/magic_ball_stand.obj')
+    vertexes_aux_15 = load_obj_to_glm_array('./objects/magic_ball/stand.obj')
     ini = vet[13]['inicio'] + vet[13]['tam']
     vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_15)/8)})
-    texture_aux = loadTexture("./objects/magic_ball/stand.jpg")
+    texture_aux = loadTexture("./objects/magic_ball/stand_texture.jpg")
     textures.append(texture_aux)
     vet_idx['magic_ball_stand'] = 14
 
     vertexes_aux_16 = load_obj_to_glm_array('./objects/shrek/shrek.obj')
     ini = vet[14]['inicio'] + vet[14]['tam']
     vet.append({'inicio': ini, 'tam': int(len(vertexes_aux_16)/8)})
-    texture_aux = loadTexture("./objects/shrek/shrek.jpg")
+    texture_aux = loadTexture("./objects/shrek/shrek_texture.jpg")
     textures.append(texture_aux)
-    texture_aux = loadTexture("./objects/shrek/leather.jpg")
+    texture_aux = loadTexture("./objects/shrek/leather_texture.jpg")
     textures.append(texture_aux)
     vet_idx['shrek'] = 15
 
