@@ -1,8 +1,7 @@
-import ctypes
-import config_screen as cs
-
 from OpenGL.GL import *
 from glfw.GLFW import *
+
+import config_screen as cs
 
 from shader import Shader
 from keyboard import *
@@ -30,40 +29,11 @@ if __name__ == '__main__':
 
     plant_positions = get_positions_plants()
 
-
-
-
-
     # Configuring the cube's VAO (and VBO).
     cubeVAO = glGenVertexArrays(1)
     VBO = glGenBuffers(1)
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO)
-    glBufferData(GL_ARRAY_BUFFER, combined_vertexes.nbytes, combined_vertexes.ptr, GL_STATIC_DRAW)
-
-    glBindVertexArray(cubeVAO)
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * glm.sizeof(glm.float32), None)
-    glEnableVertexAttribArray(0)
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * glm.sizeof(glm.float32), ctypes.c_void_p(3 * glm.sizeof(glm.float32)))
-    glEnableVertexAttribArray(1)
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * glm.sizeof(glm.float32), ctypes.c_void_p(6 * glm.sizeof(glm.float32)))
-    glEnableVertexAttribArray(2)
-
-    # second, configure the light's VAO (VBO stays the same the vertices are the same for the light object which is also a 3D cube)
-    lightCubeVAO = glGenVertexArrays(1)
-    glBindVertexArray(lightCubeVAO)
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO)
-    # note that we update the lamp's position attribute's stride to reflect the updated buffer data
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * glm.sizeof(glm.float32), None)
-    glEnableVertexAttribArray(0)
-
-
-
-
-
-
-
+    lightCubeVAO = cs.send_data_to_gpu(cubeVAO, VBO, combined_vertexes)
 
     # Render loop.
     while (not glfwWindowShouldClose(window)):
