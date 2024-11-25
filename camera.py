@@ -29,6 +29,7 @@ class Camera:
     '''
 
     def __init__(self, *args, **kwargs):
+
         if (len(args) == 8 and len(kwargs) == 0):
             posX, posY, posZ, upX, upY, upZ, yaw, pitch = args
             
@@ -74,7 +75,8 @@ class Camera:
 
     def ProcessKeyboard(self, direction: Camera_Movement, deltaTime: float) -> None:
         '''
-        Processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems).
+        Processes input received from any keyboard-like input system. Accepts input parameter in the form of
+        camera defined ENUM (to abstract it from windowing systems).
         '''
         
         velocity = self.MovementSpeed * deltaTime

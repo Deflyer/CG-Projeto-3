@@ -49,7 +49,7 @@ def load_obj_to_glm_array(filepath):
             glm_vertices.extend(normals[vn])
             glm_vertices.extend(texcoords[vt])
 
-    # Coverting to glm array.
+    # Coverting to glm array and returning.
     return glm.array(glm.float32, *glm_vertices)
 
 def loadTexture(path: str) -> int:

@@ -34,7 +34,7 @@ def draw_object(cubeVAO, textures, vertexes, idx, lightingShader, pointLightPosi
 
 def draw_shrek(cubeVAO, textures, vertexes, idx, lightingShader, pointLightPositions):
     '''
-    Draws Shrek. There is a single function for it because it has 2 texture and is placed once in the world.
+    Draws Shrek. There is a single function for it because it has 2 textures and is placed once in the world.
     '''
 
     glBindVertexArray(cubeVAO)
@@ -128,7 +128,6 @@ def draw_external_objects(lightingShader, cubeVAO, textures, vet, vet_idx, point
     lightingShader.setFloat("pointLights[2].space", 1)
     lightingShader.setFloat("dirLight.space", 1)
     
-    # drawing  external objects
     draw_object(cubeVAO, textures, vet, vet_idx['bird'], lightingShader, pointLightPositions)
     draw_object(cubeVAO, textures, vet, vet_idx['bathroom'], lightingShader, pointLightPositions)
     draw_object(cubeVAO, textures, vet, vet_idx['ground'], lightingShader, pointLightPositions)

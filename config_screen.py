@@ -30,7 +30,7 @@ def set_callbacks(window, frame_cb, mouse_cb, scroll_cb):
 
 def send_data_to_gpu(cubeVAO, VBO, combined_vertexes):
     '''
-    Requests GPU slots to program data and then sends this data to this slot.
+    Requests GPU slots to our program data and then sends this data to the slot.
     '''
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO)
