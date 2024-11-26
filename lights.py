@@ -50,14 +50,14 @@ def apply_light_param(lightingShader, pointLightPositions, idx):
 
     # Directional light.
     lightingShader.setVec3("dirLight.direction", -0.2, -1.0, -0.3)
-    lightingShader.setVec3("dirLight.ambient", 0.5, 0.5, 0.5)
-    lightingShader.setVec3("dirLight.diffuse", diffuse_values[idx][0] *  0.5, diffuse_values[idx][1] *  0.5, diffuse_values[idx][2] *  0.5)
-    lightingShader.setVec3("dirLight.specular", specular_values[idx][0] *  0.5, specular_values[idx][1] *  0.5, specular_values[idx][2] *  0.5)
+    lightingShader.setVec3("dirLight.ambient", 0.5 * kb.ambient * kb.is_sun_on, 0.5 * kb.ambient * kb.is_sun_on, 0.5 * kb.ambient * kb.is_sun_on)
+    lightingShader.setVec3("dirLight.diffuse", diffuse_values[idx][0] * kb.diffuse * kb.is_sun_on, diffuse_values[idx][1] * kb.diffuse * kb.is_sun_on, diffuse_values[idx][2] * kb.diffuse * kb.is_sun_on)
+    lightingShader.setVec3("dirLight.specular", specular_values[idx][0] * kb.specular * kb.is_sun_on, specular_values[idx][1] * kb.specular * kb.is_sun_on, specular_values[idx][2] * kb.specular * kb.is_sun_on)
     lightingShader.setFloat("dirLight.normal_correction", 1)
 
     # Point light 1.
     lightingShader.setVec3("pointLights[0].position", pointLightPositions[0])
-    lightingShader.setVec3("pointLights[0].ambient", 0.8 * kb.ambient * kb.is_lamp_on, (0.7)* kb.ambient * kb.is_lamp_on, (0.3)* kb.ambient * kb.is_lamp_on)
+    lightingShader.setVec3("pointLights[0].ambient", 0.8 * kb.ambient * kb.is_lamp_on, (0.7) * kb.ambient * kb.is_lamp_on, (0.3) * kb.ambient * kb.is_lamp_on)
     lightingShader.setVec3("pointLights[0].diffuse", diffuse_values[idx][0] *  kb.is_lamp_on * kb.diffuse, diffuse_values[idx][1] *  kb.is_lamp_on * kb.diffuse, diffuse_values[idx][2] *  kb.is_lamp_on * kb.diffuse)
     lightingShader.setVec3("pointLights[0].specular", specular_values[idx][0] *  kb.is_lamp_on * kb.specular, specular_values[idx][1] *  kb.is_lamp_on * kb.specular, specular_values[idx][2] *  kb.is_lamp_on * kb.specular)
     lightingShader.setFloat("pointLights[0].normal_correction", 1)

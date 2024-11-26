@@ -7,7 +7,8 @@
 ## Scene
 Our scene contains a ground plane covered by a spherical Skybox. In this dome, we have a house that divides the internal and the external parts. The internal one is the inside of the house, containing a bed, a drawer, a vase with a rose flower and a magic crystal ball above the bed. The external one have a character (Shrek) holding a lantern, two types of ramdomized placed plants, a flying bird and an outside house bathroom.
 
-The difference between this project and the second one is that in this one we introduce the concepts of lighting.
+The difference between this project and the Project 2 is that in this one we introduce the concepts of lighting. The internal lights are the
+lamp and the crystal ball, while the external ones are the sun and the Shrek lantern.
 
 It is possible to interact with the scene by pressing some buttons:
 - 'w': camera forward movement
@@ -32,6 +33,7 @@ It is possible to interact with the scene by pressing some buttons:
 - 'z': Turn on/off lamp light
 - 'x': Turn on/off crystall ball light
 - 'c': Turn on/off Shrek lantern light
+- 'v': Turn on/off sunlight
  
 ## Dependencies:
 

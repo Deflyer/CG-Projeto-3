@@ -26,7 +26,8 @@ shrek_side_step = 0.0
 # Turn on/off lights auxiliar variables.
 is_lamp_on = 1
 is_ball_on = 1
-is_fire_on = 1 
+is_fire_on = 1
+is_sun_on = 1
 
 # Increase/decrease light components auxiliar variables.
 ambient = 1
@@ -73,6 +74,7 @@ def processInput(window: GLFWwindow, deltaTime) -> None:
     global is_lamp_on
     global is_ball_on
     global is_fire_on
+    global is_sun_on
     global ambient
     global diffuse
     global specular
@@ -154,6 +156,8 @@ def processInput(window: GLFWwindow, deltaTime) -> None:
         is_ball_on = not is_ball_on 
     if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS):
         is_fire_on = not is_fire_on
+    if (glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS):
+        is_sun_on = not is_sun_on
 
     # Increases/decreses light components intensity.
     if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS):
